@@ -1,0 +1,10 @@
+# Ssh
+.env
+
+# Modules
+node_modules
+
+# Build artifacts
+.next
+out/*
+!out/.gitkeep

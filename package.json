@@ -1,0 +1,38 @@
+{
+  "name": "sage-next",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next",
+    "build": "next build && next export",
+    "export": "next export",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@emotion/core": "^10.0.28",
+    "@emotion/styled": "^10.0.27",
+    "emotion": "^10.0.27",
+    "emotion-theming": "^10.0.27",
+    "next": "^9.3.2",
+    "normalize.css": "^8.0.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "graphql-request": "^1.8.2",
+    "image-trace-loader": "^1.0.2",
+    "imagemin-gifsicle": "^7.0.0",
+    "imagemin-mozjpeg": "^8.0.0",
+    "imagemin-optipng": "^7.1.0",
+    "imagemin-svgo": "^7.1.0",
+    "jimp": "^0.10.0",
+    "lqip-loader": "^2.2.0",
+    "next-compose-plugins": "^2.2.0",
+    "next-optimized-images": "^2.5.5",
+    "postcss-preset-env": "^6.7.0",
+    "responsive-loader": "^1.2.0",
+    "svg-sprite-loader": "^4.2.1",
+    "webp-loader": "^0.6.0"
+  }
+}
