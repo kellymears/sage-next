@@ -1,9 +1,13 @@
+import Link from 'next/link'
+
 /**
  * Partials
  */
 const Title = ({ text, url }) =>
   <h1>
-    <a href={url} dangerouslySetInnerHTML={{__html: text}} />
+    <Link href={`/[slug]`} prefetch={false} as={url}>
+      <a dangerouslySetInnerHTML={{__html: text}} />
+    </Link>
   </h1>
 
 const Excerpt = ({ inner }) => ! inner ? [] :

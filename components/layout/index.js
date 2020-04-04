@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { App, Container } from '../app'
 import { Header, SiteName } from '../partials/header'
 import Main from '../partials/main'
@@ -10,7 +11,9 @@ export default props => (
     <Header>
       <Container>
         <SiteName>
-          {props.app.title}
+          <Link href={`/`} as={`/`}>
+            <a>{props.app.title}</a>
+          </Link>
         </SiteName>
       </Container>
     </Header>

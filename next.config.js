@@ -7,7 +7,6 @@ const config = {
 }
 
 const nextConfig = {
-  assetPrefix: '/app/themes/sage-next/out/',
   compress: true,
   env: {
     graphQLEndpoint: `${config.host}/wp/graphql`,
@@ -15,7 +14,6 @@ const nextConfig = {
   },
   exportPathMap: () => ({
     '/': { page: '/' },
-    '/posts': { page: '/' },
   }),
 }
 

@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import client from '../lib/client'
 import fragments from '../lib/fragments'
 import AppLayout from '../components/layout'
@@ -8,6 +9,12 @@ import Index from '../components/templates/index'
  */
 export default ({ app, posts }) => (
   <AppLayout app={app}>
+    <Head>
+      <title>{app.title}</title>
+      <meta charSet="utf-8" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    </Head>
+
     <Index posts={posts} />
   </AppLayout>
 )
