@@ -8,11 +8,12 @@ const App = styled.div`
   min-height: 100vh;
   max-width: 100vw;
   padding: 0;
-  width: 100vw;
+  width: 100%;
 `
 
 const Container = styled.div`
-  max-width: 900px;
+  max-width: 100vw;
+  width: 900px;
   margin-left: auto;
   margin-right: auto;
 `

@@ -7,14 +7,16 @@ const config = {
 }
 
 const nextConfig = {
+  assetPrefix: '/app/themes/sage-next/out/',
   compress: true,
   env: {
     graphQLEndpoint: `${config.host}/wp/graphql`,
     reqMode: 'no-cors',
   },
-  exportPathMap: {
+  exportPathMap: () => ({
     '/': { page: '/' },
-  },
+    '/posts': { page: '/' },
+  }),
 }
 
 module.exports = withPlugins([
