@@ -9,7 +9,9 @@ export default props => (
   <App>
     <Header>
       <Container>
-        <SiteName>Site title</SiteName>
+        <SiteName>
+          {props.app.title}
+        </SiteName>
       </Container>
     </Header>
 
