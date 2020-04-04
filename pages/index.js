@@ -1,9 +1,10 @@
 import client from '../lib/client'
+import fragments from '../lib/fragments'
 import AppLayout from '../components/layout'
 import Index from '../components/templates/index'
 
 /**
- * Index template
+ * Index
  */
 export default ({ app, posts }) => (
   <AppLayout app={app}>
@@ -19,16 +20,14 @@ const getStaticProps = async () => {
     generalSettings,
     posts,
   } = await client.request(`{
-    generalSettings {
-      title
-      description
-    }
+    ${fragments.generalSettings}
     posts {
       edges {
         node {
           title
           excerpt
           content
+          uri
         }
       }
     }

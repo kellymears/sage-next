@@ -1,4 +1,5 @@
 import client from '../lib/client'
+import fragments from '../lib/fragments'
 import AppLayout from '../components/layout'
 import Single from '../components/templates/single'
 
@@ -19,10 +20,7 @@ const getStaticProps = async ({ params }) => {
     generalSettings,
     nodeByUri,
   } = await client.request(`{
-    generalSettings {
-      title
-      description
-    }
+    ${fragments.generalSettings}
     nodeByUri(uri: "${params.slug}/") {
       ... on Page {
         content

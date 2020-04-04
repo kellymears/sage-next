@@ -6,7 +6,7 @@ import { Excerpt, Title } from '../partials/meta'
 export default ({ posts }) =>
   posts.map(({ node: post }, id) =>
     <article key={id}>
-      <Title inner={post.title || null} />
+      <Title text={post.title || null} url={post.uri} />
       <Excerpt inner={post.excerpt || null} />
     </article>
   )
