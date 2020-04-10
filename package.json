@@ -1,13 +1,13 @@
 {
   "name": "sage-next",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
   "scripts": {
     "dev": "next",
     "build": "next build && next export",
     "export": "next export",
-    "start": "next start"
+    "start": "next start",
+    "lint": "prettier --write **/*.js"
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
@@ -20,6 +20,10 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.19.0",
     "graphql-request": "^1.8.2",
     "image-trace-loader": "^1.0.2",
     "imagemin-gifsicle": "^7.0.0",
@@ -31,6 +35,8 @@
     "next-compose-plugins": "^2.2.0",
     "next-optimized-images": "^2.5.5",
     "postcss-preset-env": "^6.7.0",
+    "prettier": "^2.0.4",
+    "prettier-eslint-cli": "^5.0.0",
     "responsive-loader": "^1.2.0",
     "svg-sprite-loader": "^4.2.1",
     "webp-loader": "^0.6.0"

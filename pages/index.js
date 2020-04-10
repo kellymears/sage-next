@@ -23,10 +23,7 @@ export default ({ app, posts }) => (
  * Content graph
  */
 const getStaticProps = async () => {
-  const {
-    generalSettings,
-    posts,
-  } = await client.request(`{
+  const { generalSettings, posts } = await client.request(`{
     ${fragments.generalSettings}
     posts {
       edges {
@@ -43,9 +40,7 @@ const getStaticProps = async () => {
   return {
     props: {
       app: generalSettings,
-      posts: posts
-        ? posts.edges
-        : [],
+      posts: posts ? posts.edges : [],
     },
   }
 }

@@ -1,24 +1,36 @@
 // next.config.js
+const { join } = require('path')
 const withPlugins = require('next-compose-plugins');
 const optimizedImages = require('next-optimized-images');
 
-const config = {
-  host: 'http://tinypixel.vagrant',
+/**
+ * App
+ */
+const app = {
+  host: 'http://kellymears.vagrant',
+  version: '1.0.0',
 }
 
-const nextConfig = {
-  compress: true,
-  env: {
-    graphQLEndpoint: `${config.host}/wp/graphql`,
-    reqMode: 'no-cors',
-  },
-  exportPathMap: () => ({
-    '/': { page: '/' },
-  }),
-}
-
+/**
+ * Next config
+ */
 module.exports = withPlugins([
-  [optimizedImages, {
-    optimizeImagesInDev: true,
-  }],
-], nextConfig)
+    [optimizedImages, {
+      optimizeImagesInDev: true,
+    }],
+  ], {
+    assetPrefix: `/app/themes/sage-next/out/`,
+    compress: true,
+    distDir: `/dist`,
+    env: {
+      graphQLEndpoint: `${app.host}/wp/graphql`,
+      reqMode: 'no-cors',
+    },
+    exportPathMap: async () => ({
+      '/': { page: '/' },
+    }),
+    experimental:{
+      basePath: join(__dirname, '/out'),
+    },
+    poweredByHeader: false,
+  })

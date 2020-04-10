@@ -18,7 +18,4 @@ const Container = styled.div`
   margin-right: auto;
 `
 
-export {
-  App,
-  Container,
-}
+export { App, Container }

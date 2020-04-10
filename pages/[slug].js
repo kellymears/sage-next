@@ -10,11 +10,13 @@ import Single from '../components/templates/single'
 export default ({ app, post }) => (
   <AppLayout app={app}>
     <Head>
-      <title>{post.title} | {app.title}</title>
+      <title>
+        {post.title} | {app.title}
+      </title>
       <meta charset="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
-    <Single post={ post } />
+    <Single post={post} />
   </AppLayout>
 )
 
@@ -22,10 +24,7 @@ export default ({ app, post }) => (
  * Static props
  */
 const getStaticProps = async ({ params }) => {
-  const {
-    generalSettings,
-    nodeByUri,
-  } = await client.request(`{
+  const { generalSettings, nodeByUri } = await client.request(`{
     ${fragments.generalSettings}
     nodeByUri(uri: "${params.slug}/") {
       ... on Page {
@@ -78,19 +77,16 @@ const getStaticPaths = async () => {
       ...posts.edges.map(({ node: post }) => ({
         params: {
           slug: post.slug,
-        }
+        },
       })),
       ...pages.edges.map(({ node: page }) => ({
         params: {
           slug: page.slug,
-        }
+        },
       })),
     ],
     fallback: false,
   }
 }
 
-export {
-  getStaticPaths,
-  getStaticProps,
-}
+export { getStaticPaths, getStaticProps }
