@@ -1,35 +1,12 @@
-import { ThemeProvider } from 'emotion-theming'
-import { injectGlobal } from 'emotion'
-import normalize from 'normalize.css'
+import { CSSReset, ThemeProvider } from '@chakra-ui/core'
 import theme from '../theme'
 
 /**
  * Application
  */
 export default ({ Component, pageProps }) => (
-  <ThemeProvider theme={theme}>
+  <ThemeProvider>
+    <CSSReset />
     <Component {...pageProps} />
   </ThemeProvider>
 )
-
-/**
- * Global styles
- */
-injectGlobal`
-  ${normalize}
-
-  html,
-  body {
-    margin: 0 !important;
-    max-width: 100vw;
-    overflow-x: hidden;
-    padding: 0 !important;
-  }
-
-  html > body > #__next {
-    margin: 0;
-    max-width: 100vw;
-    padding: 0;
-    width: 100%;
-  }
-`

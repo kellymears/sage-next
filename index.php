@@ -20,7 +20,7 @@
     public function __construct()
     {
         $this->env = WP_ENV;
-        $this->request = str_replace('/', '', $_SERVER['REQUEST_URI']);
+        $this->request = rtrim($_SERVER['REQUEST_URI'], '/');
     }
 
     /**
@@ -28,8 +28,6 @@
      */
     public function __invoke()
     {
-        file_put_contents(__DIR__.'/.env', "ENV={$this->env}");
-
         require_once $this->request
             ? __DIR__."/out/{$this->request}.html"
             : __DIR__.'/out/index.html';
