@@ -1,5 +1,4 @@
 // next.config.js
-const { join } = require('path')
 const withPlugins = require('next-compose-plugins');
 const optimizedImages = require('next-optimized-images');
 
@@ -25,12 +24,6 @@ module.exports = withPlugins([
     env: {
       graphQLEndpoint: `${app.host}/wp/graphql`,
       reqMode: 'no-cors',
-    },
-    exportPathMap: async () => ({
-      '/': { page: '/' },
-    }),
-    experimental:{
-      basePath: join(__dirname, '/out'),
     },
     poweredByHeader: false,
   })

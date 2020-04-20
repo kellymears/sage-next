@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { getStaticProps, getStaticPaths } from '../data/props/single'
 
 /** Application components */
-import AppLayout from '../components/layout'
+import Layout from '../components/layout'
 import Single from '../components/templates/single'
 
 /**
@@ -15,15 +15,13 @@ import Single from '../components/templates/single'
  * @prop {object} post
  */
 export default ({ app, post }) => (
-  <AppLayout app={app}>
+  <Layout app={app}>
     <Head>
-      <title>
-        {post.title} | {app.title}
-      </title>
+      <title>{post.title} | {app.title}</title>
     </Head>
 
     <Single post={post} />
-  </AppLayout>
+  </Layout>
 )
 
 export {

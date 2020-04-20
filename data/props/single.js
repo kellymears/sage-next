@@ -12,7 +12,7 @@ const getStaticProps = async ({ params }) => {
     nodeByUri: post,
   } = await client.request(`{
     ${fragments.generalSettings}
-    nodeByUri(uri: "${params.slug}/") {
+    nodeByUri(uri: "${params.slug}") {
       ... on Page {
         content
         title

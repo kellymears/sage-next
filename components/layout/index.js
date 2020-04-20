@@ -1,28 +1,21 @@
+/** @jsx jsx */
+import { jsx, Box, Heading, Container } from 'theme-ui'
 import Link from 'next/link'
-
-import { App, Container, Main } from '../app'
-import Mast from '../styled/Mast'
-import Heading from '../styled/Heading'
 
 /**
  * Primary layout.
+ *
+ * @prop {object} app
+ * @prop {object} children
  */
-export default props => (
-  <App>
-    <Mast>
-      <Container>
-        <Heading>
-          <Link href={`/`} as={`/`}>
-            {props.app.title}
-          </Link>
-        </Heading>
-      </Container>
-    </Mast>
+export default ({ app, children }) => (
+  <Container px={2} mx={'auto'}>
+    <Box as={'header'} pt={1} pb={3}>
+      <Link as={`/`} href="/">
+        <Heading>{app.title}</Heading>
+      </Link>
+    </Box>
 
-    <Container>
-      <Main>
-        {props.children}
-      </Main>
-    </Container>
-  </App>
+    <main>{children}</main>
+  </Container>
 )

@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { getStaticProps } from './../data/props/index'
 
 /** Application components */
-import AppLayout from '../components/layout'
+import Layout from '../components/layout'
 import Index from '../components/templates/index'
 
 /**
@@ -15,13 +15,12 @@ import Index from '../components/templates/index'
  * @prop {object} posts
  */
 export default ({ app, posts }) => (
-  <AppLayout app={app}>
+  <Layout app={app}>
     <Head>
       <title>{app.title}</title>
     </Head>
-
     <Index posts={posts} />
-  </AppLayout>
+  </Layout>
 )
 
 export { getStaticProps }

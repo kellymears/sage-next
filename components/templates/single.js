@@ -1,12 +1,12 @@
-import Heading from '../styled/Heading'
-import { RichText } from '../partials/meta'
-import Article from '../styled/Article'
+import { Box, Heading } from 'theme-ui'
 
 /**
  * Single article template
  */
 export default ({ post }) =>
-  <Article>
-    <Heading>{post.title}</Heading>
-    <RichText inner={post.content || null} />
-  </Article>
+  <Box as={'article'}>
+    <Heading as={'h2'}>
+      {post.title}
+    </Heading>
+    <Box dangerouslySetInnerHTML={{__html: post.content || null }} />
+  </Box>

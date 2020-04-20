@@ -1,5 +1,5 @@
-import { RichText, Title } from '../partials/meta'
-import Article from '../styled/Article'
+import Link from 'next/link'
+import { Box, Heading} from 'theme-ui'
 
 /**
  * Content Partial
@@ -9,11 +9,14 @@ import Article from '../styled/Article'
  * @prop {string} uri
  * @prop {string} excerpt
  */
-const Content = ({ id, title, uri, excerpt }) => (
-  <Article key={id}>
-    <Title text={title || null} url={uri} />
-    <RichText inner={excerpt || null} />
-  </Article>
-)
+const Content = ({ id, title, uri, excerpt }) =>
+  <Box as={'article'}>
+    <Heading as={'h2'}>
+      <Link href={uri} as={uri}>
+        {title}
+      </Link>
+    </Heading>
+    <Box dangerouslySetInnerHTML={{__html: excerpt || null }} />
+  </Box>
 
 export default Content

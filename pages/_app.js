@@ -1,11 +1,8 @@
 /** Next */
 import Head from 'next/head'
 
-/** Theme provider */
-import { ThemeProvider } from 'emotion-theming'
-
-/** Application theme */
-import './../theme/global'
+/** @theme-ui */
+import { ThemeProvider } from 'theme-ui'
 import theme from '../theme'
 
 /**
