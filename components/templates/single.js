@@ -1,7 +1,12 @@
+import Heading from '../styled/Heading'
+import { RichText } from '../partials/meta'
+import Article from '../styled/Article'
+
+/**
+ * Single article template
+ */
 export default ({ post }) =>
-  <article>
-    <h1>{post.title}</h1>
-    <div dangerouslySetInnerHTML={{
-      __html: post.content || null
-    }} />
-  </article>
+  <Article>
+    <Heading>{post.title}</Heading>
+    <RichText inner={post.content || null} />
+  </Article>

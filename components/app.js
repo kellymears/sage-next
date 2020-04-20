@@ -1,5 +1,8 @@
 import styled from '@emotion/styled'
 
+/**
+ * Application wrapper
+ */
 const App = styled.div`
   background-color: ${props => props.theme.colors.background};
   color: ${props => props.theme.colors.text};
@@ -11,11 +14,27 @@ const App = styled.div`
   width: 100%;
 `
 
+/**
+ * Container
+ */
 const Container = styled.div`
   max-width: 100vw;
   width: 900px;
   margin-left: auto;
   margin-right: auto;
+  padding-left: ${({theme}) => theme.spacing[2]};
+  padding-right: ${({theme}) => theme.spacing[2]};
 `
 
-export { App, Container }
+/**
+ * Main el
+ */
+const Main = styled.main`
+  font-family: ${props => props.theme.fonts.sans};
+`
+
+export {
+  App,
+  Container,
+  Main,
+}

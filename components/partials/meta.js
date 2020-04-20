@@ -1,23 +1,31 @@
+/** Next */
 import Link from 'next/link'
 
+/** Styled components */
+import Heading from './../styled/Heading'
+
 /**
- * Partials
+ * Content Title
+ *
+ * @prop {string} text
+ * @prop {string} url
  */
 const Title = ({ text, url }) =>
-  <h1>
+  <Heading>
     <Link href={`/[slug]`} prefetch={false} as={url}>
-      <a dangerouslySetInnerHTML={{__html: text}} />
+      {text}
     </Link>
-  </h1>
+  </Heading>
 
-const Excerpt = ({ inner }) => ! inner ? [] :
-  <div dangerouslySetInnerHTML={{__html: inner}} />
-
-const Content = ({ inner }) => ! inner ? [] :
-  <div dangerouslySetInnerHTML={{__html: inner}} />
+/**
+ * RichText
+ *
+ * @prop {string} inner
+ */
+const RichText = ({ inner }) =>
+  <div dangerouslySetInnerHTML={{ __html: inner }} />
 
 export {
-  Content,
-  Excerpt,
   Title,
+  RichText,
 }

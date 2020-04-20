@@ -1,22 +1,23 @@
 import Link from 'next/link'
-import { App, Container } from '../app'
-import { Header, SiteName } from '../partials/header'
-import Main from '../partials/main'
+
+import { App, Container, Main } from '../app'
+import Mast from '../styled/Mast'
+import Heading from '../styled/Heading'
 
 /**
  * Primary layout.
  */
 export default props => (
   <App>
-    <Header>
+    <Mast>
       <Container>
-        <SiteName>
+        <Heading>
           <Link href={`/`} as={`/`}>
-            <a>{props.app.title}</a>
+            {props.app.title}
           </Link>
-        </SiteName>
+        </Heading>
       </Container>
-    </Header>
+    </Mast>
 
     <Container>
       <Main>

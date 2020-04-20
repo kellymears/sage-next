@@ -16,6 +16,7 @@
     "emotion-theming": "^10.0.27",
     "next": "^9.3.2",
     "normalize.css": "^8.0.1",
+    "polished": "^3.5.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },

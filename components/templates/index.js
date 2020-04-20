@@ -1,12 +1,15 @@
-import { Excerpt, Title } from '../partials/meta'
+/** Application partials */
+import Content from './../partials/content'
 
 /**
- * Posts content
+ * Index
  */
 export default ({ posts }) =>
   posts.map(({ node: post }, id) =>
-    <article key={id}>
-      <Title text={post.title || null} url={post.uri} />
-      <Excerpt inner={post.excerpt || null} />
-    </article>
+    <Content
+      id={id}
+      title={post.title || null}
+      uri={post.uri || null}
+      excerpt={post.excerpt || null}
+    />
   )

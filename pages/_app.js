@@ -1,35 +1,30 @@
+/** Next */
+import Head from 'next/head'
+
+/** Theme provider */
 import { ThemeProvider } from 'emotion-theming'
-import { injectGlobal } from 'emotion'
-import normalize from 'normalize.css'
+
+/** Application theme */
+import './../theme/global'
 import theme from '../theme'
 
 /**
  * Application
+ *
+ * @prop {object} Component
+ * @prop {object} pageProps
  */
-export default ({ Component, pageProps }) => (
-  <ThemeProvider theme={theme}>
-    <Component {...pageProps} />
-  </ThemeProvider>
+const Application = ({ Component, pageProps }) => (
+  <>
+    <Head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    </Head>
+
+    <ThemeProvider theme={theme}>
+      <Component {...pageProps} />
+    </ThemeProvider>
+  </>
 )
 
-/**
- * Global styles
- */
-injectGlobal`
-  ${normalize}
-
-  html,
-  body {
-    margin: 0 !important;
-    max-width: 100vw;
-    overflow-x: hidden;
-    padding: 0 !important;
-  }
-
-  html > body > #__next {
-    margin: 0;
-    max-width: 100vw;
-    padding: 0;
-    width: 100%;
-  }
-`
+export default Application
