@@ -2,7 +2,7 @@
 import Head from 'next/head'
 
 /** Application data */
-import { getStaticProps, getStaticPaths } from '../data/props/single'
+import {getStaticProps, getStaticPaths} from '../data/props/single'
 
 /** Application views */
 import Layout from '../views/layout'

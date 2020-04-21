@@ -8,7 +8,7 @@ import fragments from '../fragments'
  */
 const getStaticProps = async ({params}) => {
   const {
-    generalSettings: app,
+    generalSettings,
     menus,
     nodeByUri: post,
   } = await client.request(`{
@@ -31,7 +31,16 @@ const getStaticProps = async ({params}) => {
   }`)
 
   return {
-    props: { app, menus, post },
+    props: {
+      app: {
+        settings: generalSettings,
+        menu: menus.edges[0].node.menuItems.edges.map(({ node }) => {
+          node.url = node.url.replace(process.env.url, '/')
+          return node
+        }),
+      },
+      post,
+    },
   }
 }
 

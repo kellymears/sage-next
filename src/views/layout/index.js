@@ -1,5 +1,8 @@
-import {Box, Container, Heading} from 'theme-ui'
-import Link from 'next/link'
+/** theme-ui */
+import {Container} from 'theme-ui'
+
+/** Partials */
+import Header from './../partials/header'
 
 /**
  * Primary layout.
@@ -7,14 +10,15 @@ import Link from 'next/link'
  * @prop {object} app
  * @prop {object} children
  */
-export default ({ app, children }) => (
+const Layout = ({ app, children }) =>
   <Container mx={'auto'}>
-    <Box as={'header'} py={3}>
-      <Link as={`/`} href="/">
-        <Heading>{app.title}</Heading>
-      </Link>
-    </Box>
+    <Header
+      title={app.settings.title}
+      description={app.settings.description}
+      menu={app.menu || []}
+    />
 
     <main>{children}</main>
   </Container>
-)
+
+export default Layout

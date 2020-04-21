@@ -2,9 +2,8 @@ import Link from 'next/link'
 import { Box, Heading } from 'theme-ui'
 
 /**
- * Content partial.
+ * Partials: Content
  *
- * @prop {number} id
  * @prop {string} title
  * @prop {string} uri
  * @prop {string} excerpt
@@ -16,6 +15,7 @@ const Content = ({ title, uri, excerpt }) =>
         {title}
       </Link>
     </Heading>
+
     <Box dangerouslySetInnerHTML={{__html: excerpt || null }} />
   </Box>
 

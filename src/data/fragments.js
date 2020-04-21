@@ -10,6 +10,7 @@ export default `
         menuItems {
           edges {
             node {
+              label
               target
               title
               url

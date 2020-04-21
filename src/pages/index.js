@@ -14,11 +14,12 @@ import Index from '../views/index'
  * @prop {object} app
  * @prop {object} posts
  */
-export default ({ app, posts }) => (
+export default ({app, posts}) => (
   <Layout app={app}>
     <Head>
       <title>{app.title}</title>
     </Head>
+
     <Index posts={posts} />
   </Layout>
 )
