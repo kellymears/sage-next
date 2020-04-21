@@ -2,6 +2,11 @@
  * Theme UI
  */
 
-import {tailwind} from '@theme-ui/presets'
+import {system} from '@theme-ui/presets'
 
-export default tailwind
+export default {
+  ...system,
+  sizes: {
+    container: 768,
+  },
+}

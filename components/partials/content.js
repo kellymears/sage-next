@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { Box, Heading } from 'theme-ui'
 
 /**
- * Content Partial
+ * Content partial.
  *
  * @prop {number} id
  * @prop {string} title

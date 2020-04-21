@@ -1,8 +1,8 @@
-/** Application partials */
+/** Partials */
 import Content from './partials/content'
 
 /**
- * Index template
+ * Index template.
  *
  * @prop {object} posts
  */

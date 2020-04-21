@@ -1,12 +1,14 @@
-import { Box, Heading } from 'theme-ui'
+import {Box, Heading} from 'theme-ui'
 
 /**
- * Single article template
+ * Single template.
+ *
+ * @prop {object} post
  */
-export default ({post}) =>
+export default ({post: {title, content}}) =>
   <Box as={'article'}>
     <Heading as={'h2'}>
-      {post.title}
+      {title}
     </Heading>
-    <Box dangerouslySetInnerHTML={{__html: post.content || null }} />
+    <Box dangerouslySetInnerHTML={{__html: content}} />
   </Box>

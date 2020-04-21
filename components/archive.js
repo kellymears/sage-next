@@ -1,11 +1,11 @@
 /** @theme-ui */
 import { Box, Heading} from 'theme-ui'
 
-/** Application partials */
+/** Partials */
 import Content from './partials/content'
 
 /**
- * Archive
+ * Archive template.
  *
  * @prop {object} posts
  */
