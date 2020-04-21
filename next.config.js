@@ -3,7 +3,13 @@ const withPlugins = require('next-compose-plugins');
 const optimizedImages = require('next-optimized-images');
 
 /**
- * App
+ * Asset prefix must be set to the build dir from
+ * WordPress' webroot if not deploying to a CDN.
+ */
+const assetPrefix = `/app/themes/sage-next/out/`
+
+/**
+ * App config
  */
 const app = {
   host: 'http://kellymears.vagrant',
@@ -14,16 +20,16 @@ const app = {
  * Next config
  */
 module.exports = withPlugins([
-    [optimizedImages, {
-      optimizeImagesInDev: true,
-    }],
-  ], {
-    assetPrefix: `/app/themes/sage-next/out/`,
-    compress: true,
-    distDir: `/dist`,
-    env: {
-      graphQLEndpoint: `${app.host}/wp/graphql`,
-      reqMode: 'no-cors',
-    },
-    poweredByHeader: false,
-  })
+  [optimizedImages, {
+    optimizeImagesInDev: true,
+  }],
+], {
+  assetPrefix,
+  compress: true,
+  distDir: `/dist`,
+  env: {
+    graphQLEndpoint: `${app.host}/wp/graphql`,
+    reqMode: 'no-cors',
+  },
+  poweredByHeader: false,
+})
