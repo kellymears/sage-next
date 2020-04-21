@@ -1,45 +1,39 @@
 {
-    "name": "roots/sage-next",
-    "type": "wordpress-theme",
-    "license": "MIT",
-    "description": "WordPress starter theme with a modern development workflow",
-    "homepage": "https://roots.io/sage-next/",
-    "authors": [
-        {
-            "name": "Kelly Mears",
-            "email": "developers@tinypixel.dev"
-        }
-    ],
-    "keywords": [
-      "wordpress"
-    ],
-    "support": {
-      "issues": "https://github.com/roots/sage-next/issues",
-      "forum": "https://discourse.roots.io/"
-    },
-    "autoload": {
-      "psr-4": {
-        "App\\": "app/"
-      }
-    },
-    "require": {
-        "php": "^7.2.5",
-        "tightenco/collect": "^7.6"
-    },
-    "require-dev": {
-      "filp/whoops": "^2.7",
-      "squizlabs/php_codesniffer": "^3.5"
-    },
-    "config": {
-      "optimize-autoloader": true,
-      "preferred-install": "dist",
-      "sort-packages": true
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "scripts": {
-      "lint": [
-        "phpcs --ignore=vendor --extensions=php --standard=PSR12 ."
-      ]
+  "name": "roots/sage-next",
+  "type": "wordpress-theme",
+  "license": "MIT",
+  "description": "WordPress starter theme with a modern development workflow",
+  "homepage": "https://roots.io/sage-next/",
+  "authors": [
+    {
+      "name": "Kelly Mears",
+      "email": "developers@tinypixel.dev"
     }
+  ],
+  "keywords": [
+    "wordpress"
+  ],
+  "support": {
+    "issues": "https://github.com/roots/sage-next/issues",
+    "forum": "https://discourse.roots.io/"
+  },
+  "require": {
+      "php": "^7.2.5"
+  },
+  "require-dev": {
+    "filp/whoops": "^2.7",
+    "squizlabs/php_codesniffer": "^3.5"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "scripts": {
+    "lint": [
+      "phpcs --ignore=dist,node_modules,out,src,vendor --extensions=php --standard=PSR12 ."
+    ]
+  }
 }
