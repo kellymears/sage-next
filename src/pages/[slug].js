@@ -4,9 +4,9 @@ import Head from 'next/head'
 /** Application data */
 import { getStaticProps, getStaticPaths } from '../data/props/single'
 
-/** Application components */
-import Layout from '../components/layout'
-import Single from '../components/single'
+/** Application views */
+import Layout from '../views/layout'
+import Single from '../views/single'
 
 /**
  * Template: Single

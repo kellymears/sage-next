@@ -9,9 +9,10 @@ import fragments from '../fragments'
 const getStaticProps = async ({params}) => {
   const {
     generalSettings: app,
+    menus,
     nodeByUri: post,
   } = await client.request(`{
-    ${fragments.generalSettings}
+    ${fragments}
     nodeByUri(uri: "${params.slug}") {
       ... on Page {
         content
@@ -30,7 +31,7 @@ const getStaticProps = async ({params}) => {
   }`)
 
   return {
-    props: { app, post },
+    props: { app, menus, post },
   }
 }
 

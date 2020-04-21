@@ -10,9 +10,10 @@ import fragments from '../fragments'
 const getStaticProps = async ({params}) => {
   const {
     generalSettings: app,
+    menus,
     category,
   } = await client.request(`{
-    ${fragments.generalSettings}
+    ${fragments}
     category(id: "${params.slug}", idType: SLUG) {
       slug
       count
@@ -34,6 +35,7 @@ const getStaticProps = async ({params}) => {
   return {
     props: {
       app,
+      menus,
       category,
     },
   }

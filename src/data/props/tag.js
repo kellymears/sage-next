@@ -10,6 +10,7 @@ import fragments from '../fragments'
 const getStaticProps = async ({ params }) => {
   const {
     generalSettings: app,
+    menus,
     tag,
   } = await client.request(`{
     ${fragments.generalSettings}
@@ -33,6 +34,7 @@ const getStaticProps = async ({ params }) => {
   return {
     props: {
       app,
+      menus,
       tag,
     },
   }

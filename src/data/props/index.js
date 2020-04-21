@@ -8,9 +8,10 @@ import fragments from '../fragments'
 const getStaticProps = async () => {
   const {
     generalSettings: app,
-    posts
+    menus,
+    posts,
   } = await client.request(`{
-    ${fragments.generalSettings}
+    ${fragments}
     posts {
       edges {
         node {
@@ -26,6 +27,7 @@ const getStaticProps = async () => {
   return {
     props: {
       app,
+      menus,
       posts: posts ? posts.edges : [],
     },
   }

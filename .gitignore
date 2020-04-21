@@ -1,8 +1,8 @@
-# Ssh
 .env
 
 # Modules
 node_modules
+vendor
 
 # Build artifacts
 dist

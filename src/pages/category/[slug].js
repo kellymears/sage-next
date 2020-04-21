@@ -4,9 +4,9 @@ import Head from 'next/head'
 /** Application data */
 import { getStaticProps, getStaticPaths } from '../../data/props/category'
 
-/** Application components */
-import Layout from '../../components/layout'
-import Archive from '../../components/archive'
+/** Application views */
+import Layout from '../../views/layout'
+import Archive from '../../views/archive'
 
 /**
  * Archive: Category

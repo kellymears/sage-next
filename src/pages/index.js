@@ -4,9 +4,9 @@ import Head from 'next/head'
 /** Application data */
 import { getStaticProps } from '../data/props/index'
 
-/** Application components */
-import Layout from '../components/layout'
-import Index from '../components/index'
+/** Application views */
+import Layout from '../views/layout'
+import Index from '../views/index'
 
 /**
  * Template: Index
