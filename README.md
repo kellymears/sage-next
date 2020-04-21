@@ -9,19 +9,18 @@ This project can either be used directly as a WordPress theme or -- better yet -
 ## Requirements
 
 - Node
-- WPGraphQL plugin
+- WPGraphQL
 
 ## Features
 
 - Static site generation and component rehydration
 - GraphQL data modeling
-- Emotion styled components
+- CSS-in-JS theming
 - Despite being very opinionated it's really not so opinionated at all.
 
 ## Build commands
 
 `yarn dev` starts up an HMR dev server to hack on
-
 `yarn build` compiles the theme and writes the static content to the out dir.
 
 ## Structure
@@ -29,33 +28,38 @@ This project can either be used directly as a WordPress theme or -- better yet -
 Important locations:
 
 ```sh
-.
-# GraphQL and util
-├── app
-│   └── client.js
+
+# Config
+├── index.php
 └── next.config.js
 
-# Components (akin to view partials, layout)
+# Components (views)
 └── components
-    ├── app.js
     ├── layout
-    │   └── index.js
-    └── partials
-        ├── header.js
-        ├── main.js
-        └── meta.js
+    │   └── index.js
+    ├── partials
+    │   └── content.js
+    ├── archive.js
+    ├── index.js
+    └── single.js
 
-# Pages (akin to theme templates)
+# Pages (controllers)
 └── pages
     ├── _app.js
-    └── index.js
+    ├── index.js
+    ├── [slug].js
+    ├── category
+    │   └── [slug].js
+    └── tag
+        └── [slug].js
 
-# Theme baseline styles
+# Theme
 └── theme
     └── index.js
+
 ```
 
-## Optimize images
+## Optimize assets
 
 If you `require` image assets instead of specifying them via URL you can optimize them at build time using a variety of Gatsby-esque filters. It's pretty jammy.
 

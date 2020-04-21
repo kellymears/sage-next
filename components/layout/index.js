@@ -15,7 +15,6 @@ export default ({ app, children }) => (
         <Heading>{app.title}</Heading>
       </Link>
     </Box>
-
     <main>{children}</main>
   </Container>
 )

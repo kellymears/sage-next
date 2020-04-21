@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Box, Heading} from 'theme-ui'
+import { Box, Heading } from 'theme-ui'
 
 /**
  * Content Partial
@@ -9,10 +9,10 @@ import { Box, Heading} from 'theme-ui'
  * @prop {string} uri
  * @prop {string} excerpt
  */
-const Content = ({ id, title, uri, excerpt }) =>
+const Content = ({ title, uri, excerpt }) =>
   <Box as={'article'}>
     <Heading as={'h2'}>
-      <Link href={uri} as={uri}>
+      <Link href={`/${uri}`} as={`/${uri}`}>
         {title}
       </Link>
     </Heading>

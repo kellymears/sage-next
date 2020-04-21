@@ -1,14 +1,13 @@
-import { GraphQLClient } from 'graphql-request'
-
-/** Options */
-const options = {
-  mode: process.env.reqMode,
-}
+/** graphql-request */
+import {GraphQLClient} from 'graphql-request'
 
 /**
- * Client
+ * Client config
  */
-export default new GraphQLClient(
-  process.env.graphQLEndpoint,
-  options
-)
+const options = {mode: process.env.reqMode}
+const endpoint = process.env.graphQLEndpoint
+
+/**
+ * Application GraphQL Client
+ */
+export default new GraphQLClient(endpoint, options)

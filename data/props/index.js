@@ -1,12 +1,13 @@
+/** graphql */
 import client from '../client'
 import fragments from '../fragments'
 
 /**
- * Index template props
+ * Props: Index
  */
 const getStaticProps = async () => {
   const {
-    generalSettings,
+    generalSettings: app,
     posts
   } = await client.request(`{
     ${fragments.generalSettings}
@@ -24,7 +25,7 @@ const getStaticProps = async () => {
 
   return {
     props: {
-      app: generalSettings,
+      app,
       posts: posts ? posts.edges : [],
     },
   }

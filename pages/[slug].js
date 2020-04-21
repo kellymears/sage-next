@@ -6,7 +6,7 @@ import { getStaticProps, getStaticPaths } from '../data/props/single'
 
 /** Application components */
 import Layout from '../components/layout'
-import Single from '../components/templates/single'
+import Single from '../components/single'
 
 /**
  * Template: Single

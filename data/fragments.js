@@ -1,3 +1,6 @@
+/**
+ * Query fragment: WP Settings
+ */
 const generalSettings = `
   generalSettings {
     title

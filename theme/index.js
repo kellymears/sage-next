@@ -1,3 +1,7 @@
-import { tailwind } from '@theme-ui/presets'
+/**
+ * Theme UI
+ */
+
+import {tailwind} from '@theme-ui/presets'
 
 export default tailwind

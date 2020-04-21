@@ -2,11 +2,11 @@
 import Head from 'next/head'
 
 /** Application data */
-import { getStaticProps } from './../data/props/index'
+import { getStaticProps } from '../data/props/index'
 
 /** Application components */
 import Layout from '../components/layout'
-import Index from '../components/templates/index'
+import Index from '../components/index'
 
 /**
  * Template: Index

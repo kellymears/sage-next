@@ -2,11 +2,11 @@ import client from '../client'
 import fragments from '../fragments'
 
 /**
- * Props: Single template
+ * Props: Single
  *
  * @param {object} params
  */
-const getStaticProps = async ({ params }) => {
+const getStaticProps = async ({params}) => {
   const {
     generalSettings: app,
     nodeByUri: post,
@@ -35,7 +35,7 @@ const getStaticProps = async ({ params }) => {
 }
 
 /**
- * Paths: single template
+ * Paths: Single
  */
 const getStaticPaths = async () => {
   const {
