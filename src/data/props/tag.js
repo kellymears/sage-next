@@ -31,17 +31,6 @@ const getStaticProps = async ({ params }) => {
     }
   }`)
 
-  let appMenus = {}
-  menus.edges.forEach(({node: {name, menuItems}}) => {
-    appMenus = {
-      ...appMenus,
-      [name]: menuItems.edges.map(({ node }) => {
-        node.url = node.url.replace(process.env.url, '/')
-        return node
-      })
-    }
-  })
-
   return {
     props: {
       app: {

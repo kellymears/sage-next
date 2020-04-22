@@ -11,7 +11,7 @@ import { Box, Heading } from 'theme-ui'
 const Content = ({ title, uri, excerpt }) =>
   <Box as={'article'}>
     <Heading as={'h2'}>
-      <Link href={`/${uri}`} as={`/${uri}`}>
+      <Link href={uri !== process.env.url ? `/[slug]` : `/index`} as={`/${uri}`}>
         {title}
       </Link>
     </Heading>

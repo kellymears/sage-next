@@ -1,17 +1,13 @@
 /** graphql */
 import client from '../client'
-import fragments from '../fragments'
+import app from './app'
 
 /**
  * Props: Index
  */
 const getStaticProps = async () => {
-  const {
-    generalSettings,
-    menus,
-    posts,
-  } = await client.request(`{
-    ${fragments}
+  const {settings, menus} = await app()
+  const {posts} = await client.request(`{
     posts {
       edges {
         node {
@@ -24,22 +20,11 @@ const getStaticProps = async () => {
     }
   }`)
 
-  let appMenus = {}
-  menus.edges.forEach(({node: {name, menuItems}}) => {
-    appMenus = {
-      ...appMenus,
-      [name]: menuItems.edges.map(({ node }) => {
-        node.url = node.url.replace(process.env.url, '/')
-        return node
-      })
-    }
-  })
-
   return {
     props: {
       app: {
-        ...generalSettings,
-        menus: appMenus,
+        menus,
+        ...settings,
       },
       posts: posts ? posts.edges : [],
     },

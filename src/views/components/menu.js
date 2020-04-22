@@ -11,9 +11,9 @@ import {Box, NavLink} from 'theme-ui'
  */
 const Menu = ({items}) =>
   <Box as={'nav'} ml={'auto'}>
-    {items.map(({slug, label, url }) =>
-      <Link href={url} as={url} passHref>
-        <NavLink href={slug} p={2} variant={'styles.navlink'}>
+    {items.map(({label, url}) =>
+      <Link href={url !== process.env.url ? `/[slug]` : `/index`} as={`${url}`}>
+        <NavLink p={2} variant={'styles.navlink'}>
           {label}
         </NavLink>
       </Link>

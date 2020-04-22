@@ -1,6 +1,6 @@
 /** graphql */
 import client from '../client'
-import fragments from '../fragments'
+import app from './app'
 
 /**
  * Props: Category Archive
@@ -8,12 +8,8 @@ import fragments from '../fragments'
  * @param {object} params
  */
 const getStaticProps = async ({params}) => {
-  const {
-    generalSettings,
-    menus,
-    category,
-  } = await client.request(`{
-    ${fragments}
+  const {settings, menus} = await app()
+  const {category} = await client.request(`{
     category(id: "${params.slug}", idType: SLUG) {
       slug
       count
@@ -32,22 +28,11 @@ const getStaticProps = async ({params}) => {
     }
   }`)
 
-  let appMenus = {}
-  menus.edges.forEach(({node: {name, menuItems}}) => {
-    appMenus = {
-      ...appMenus,
-      [name]: menuItems.edges.map(({ node }) => {
-        node.url = node.url.replace(process.env.url, '/')
-        return node
-      })
-    }
-  })
-
   return {
     props: {
       app: {
-        ...generalSettings,
-        menus: appMenus,
+        menus,
+        ...settings,
       },
       category,
     },
