@@ -2,7 +2,15 @@
 import Link from 'next/link'
 
 /** theme-ui */
-import {Box, Flex, Heading, Text} from 'theme-ui'
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+} from 'theme-ui'
+
+/** Components */
+import Menu from '../components/menu'
 
 /**
  * Partials: Header
@@ -12,23 +20,16 @@ import {Box, Flex, Heading, Text} from 'theme-ui'
  * @prop {array}  menu
  */
 const Header = ({title, description, menu}) =>
-  <Box as={'header'} py={3}>
-    <Flex>
-      <Box>
-        <Link as={`/`} href="/">
-          <Heading as={'h1'}>{title}</Heading>
-        </Link>
-        <Text>{description}</Text>
-      </Box>
-
-      <Flex>
-        {menu.map(({url, label}) =>
-          <Link as={url} href={url}>
-            {label}
-          </Link>
-        )}
-      </Flex>
-    </Flex>
-  </Box>
+  <Flex
+    as={'header'}
+    alignItems={'center'}
+    variant={'styles.header'}
+    pt={2}
+    pb={3}>
+    <Link as={`/`} href="/">
+      <Heading as={'h1'}>{title}</Heading>
+    </Link>
+    <Menu items={menu} />
+  </Flex>
 
 export default Header

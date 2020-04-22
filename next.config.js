@@ -13,6 +13,7 @@ const assetPrefix = `/app/themes/sage-next/out/`
  */
 const app = {
   host: 'http://kellymears.vagrant/',
+  endpoint: 'wp/graphql',
   version: '1.0.0',
 }
 
@@ -28,7 +29,7 @@ module.exports = withPlugins([
   compress: true,
   distDir: `/dist`,
   env: {
-    graphQLEndpoint: `${app.host}wp/graphql`,
+    graphQLEndpoint: `${app.host}${app.endpoint}`,
     url: app.host,
     reqMode: 'no-cors',
   },

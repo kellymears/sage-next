@@ -3,10 +3,10 @@ export default `
     title
     description
   }
-  menus(where: {slug: "primary"}) {
+  menus {
     edges {
       node {
-        id
+        name
         menuItems {
           edges {
             node {
@@ -14,6 +14,26 @@ export default `
               target
               title
               url
+              connectedObject {
+                ... on Post {
+                  id
+                  slug
+                }
+                ... on Page {
+                  id
+                  slug
+                }
+                ... on Category {
+                  id
+                  name
+                  slug
+                }
+                ... on Tag {
+                  id
+                  name
+                  slug
+                }
+              }
             }
           }
         }

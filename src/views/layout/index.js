@@ -13,9 +13,9 @@ import Header from './../partials/header'
 const Layout = ({ app, children }) =>
   <Container mx={'auto'}>
     <Header
-      title={app.settings.title}
-      description={app.settings.description}
-      menu={app.menu || []}
+      title={app.title}
+      description={app.description}
+      menu={app.menus.primary || []}
     />
 
     <main>{children}</main>

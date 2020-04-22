@@ -7,6 +7,6 @@ import {system} from '@theme-ui/presets'
 export default {
   ...system,
   sizes: {
-    container: 768,
+    container: 960,
   },
 }
