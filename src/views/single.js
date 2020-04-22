@@ -1,11 +1,11 @@
 import {Box, Heading} from 'theme-ui'
 
 /**
- * Single template.
+ * Single.
  *
- * @prop {object} post
+ * @prop {object} node
  */
-export default ({post: {title, content}}) =>
+export default ({node: {title, content}}) =>
   <Box as={'article'}>
     <Heading as={'h2'}>
       {title}

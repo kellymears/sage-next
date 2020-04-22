@@ -1,15 +1,12 @@
 /** Next */
 import Head from 'next/head'
 
-/** Application data */
-import {getStaticProps, getStaticPaths} from '../data/props/single'
-
 /** Application views */
 import Layout from '../views/layout'
-import Single from '../views/single'
+import FourOhFour from '../views/404'
 
 /**
- * Page
+ * 404
  *
  * @prop {object} app
  * @prop {object} page
@@ -20,7 +17,7 @@ export default ({ app, node }) => (
       <title>{node.title} | {app.title}</title>
     </Head>
 
-    <Single node={node} />
+    <FourOhFour />
   </Layout>
 )
 

@@ -2,22 +2,29 @@
 
 namespace App;
 
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Illuminate\Support\Collection;
+use Illuminate\Container\Container;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
+
 /**
  * Sage Next.
  */
 (new class() {
-    /**
-     * @param string
-     */
-    public $request;
+    public $routes;
+    public $dynamicRoutes;
 
     /**
      * Class constructor.
      */
     public function __construct()
     {
-        $this->env = WP_ENV;
-        $this->request = rtrim($_SERVER['REQUEST_URI'], '/\\');
+        $this->app = new Container();
+        add_action('after_setup_theme', [$this, 'setup'], 20);
+        remove_action('template_redirect', 'redirect_canonical');
     }
 
     /**
@@ -27,22 +34,31 @@ namespace App;
      */
     public function __invoke(): void
     {
-        add_action('after_setup_theme', [$this, 'setup'], 20);
+        if (! is_admin()) {
+            $this->request = Request::capture();
+            $this->app->instance('Illuminate\Http\Request', $this->request);
 
-        $this->route();
-    }
+            $this->events = new Dispatcher($this->app);
+            $this->router = new Router($this->events, $this->app);
 
-    /**
-     * Route request.
-     *
-     * @return void
-     */
-    public function route(): void
-    {
-        if (! is_customize_preview() && ! is_admin()) {
-            require_once $this->request
-                ? __DIR__ . "/out{$this->request}.html"
-                : __DIR__ . "/out/index.html";
+            $this->router->get(
+                '/',
+                function () {
+                    require_once __DIR__ . "/out/index.html";
+                },
+            );
+
+            if (realpath($entry = __DIR__ . '/out' . rtrim($this->request->getPathInfo(), '/\\') . '.html')) {
+                $this->router->any('{any}', function () use ($entry) {
+                    require_once $entry;
+                })->where('any', '(.*)');
+            } else {
+                $this->router->any('{any}', function () use ($entry) {
+                    require_once __DIR__ . '/out/404.html';
+                })->where('any', '(.*)');
+            }
+
+            $this->router->dispatch($this->request)->send();
         }
     }
 

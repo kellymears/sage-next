@@ -5,7 +5,7 @@ import { Box, Heading} from 'theme-ui'
 import Content from './partials/content'
 
 /**
- * Archive template.
+ * Archive.
  *
  * @prop {object} posts
  */

@@ -11,7 +11,7 @@ import Header from './../partials/header'
  * @prop {object} children
  */
 const Layout = ({ app, children }) =>
-  <Container mx={'auto'}>
+  <Container mx={'auto'} px={2}>
     <Header
       title={app.title}
       description={app.description}

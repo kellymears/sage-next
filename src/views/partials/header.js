@@ -2,12 +2,7 @@
 import Link from 'next/link'
 
 /** theme-ui */
-import {
-  Box,
-  Flex,
-  Heading,
-  Text,
-} from 'theme-ui'
+import {Flex, Heading} from 'theme-ui'
 
 /** Components */
 import Menu from '../components/menu'
@@ -19,7 +14,7 @@ import Menu from '../components/menu'
  * @prop {string} description
  * @prop {array}  menu
  */
-const Header = ({title, description, menu}) =>
+const Header = ({title, menu}) =>
   <Flex
     as={'header'}
     alignItems={'center'}

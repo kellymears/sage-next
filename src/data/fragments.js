@@ -17,21 +17,21 @@ export default `
               connectedObject {
                 ... on Post {
                   id
-                  slug
+                  uri
                 }
                 ... on Page {
                   id
-                  slug
+                  uri
                 }
                 ... on Category {
                   id
                   name
-                  slug
+                  uri
                 }
                 ... on Tag {
                   id
                   name
-                  slug
+                  uri
                 }
               }
             }

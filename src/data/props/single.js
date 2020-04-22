@@ -1,69 +1,56 @@
+/** graphql */
 import client from '../client'
-import fragments from '../fragments'
+import app from './app'
 
 /**
- * Props: Single
+ * Page: static props generator
  *
- * @param {object} params
+ * @param  {object} params
+ * @return {object}
  */
 const getStaticProps = async ({params}) => {
-  const {
-    generalSettings,
-    menus,
-    nodeByUri: post,
-  } = await client.request(`{
-    ${fragments}
+  const { settings, menus } = await app()
+  const {nodeByUri: node} = await client.request(`{
     nodeByUri(uri: "${params.slug}") {
       ... on Page {
         content
+        slug
         title
       }
       ... on Post {
         content
+        slug
         title
-        author {
-          name
-          slug
-          url
-        }
       }
     }
   }`)
 
-  let appMenus = {}
-  menus.edges.forEach(({node: {name, menuItems}}) => {
-    appMenus = {
-      ...appMenus,
-      [name]: menuItems.edges.map(({ node }) => {
-        node.url = node.url.replace(process.env.url, '/')
-        return node
-      })
-    }
-  })
-
   return {
     props: {
       app: {
-        ...generalSettings,
-        menus: appMenus,
+        menus,
+        ...settings,
       },
-      post,
+      node: { ...node },
     }
   }
 }
 
 /**
- * Paths: Single
+ * Post: static paths generator
+ *
+ * @return {object} props
  */
 const getStaticPaths = async () => {
   const {
-    pages,
     posts,
+    pages,
   } = await client.request(`{
     posts {
       edges {
         node {
           slug
+          uri
         }
       }
     }
@@ -71,6 +58,7 @@ const getStaticPaths = async () => {
       edges {
         node {
           slug
+          uri
         }
       }
     }
@@ -78,15 +66,11 @@ const getStaticPaths = async () => {
 
   return {
     paths: [
-      ...posts.edges.map(({ node: post }) => ({
-        params: {
-          slug: post.slug,
-        },
+      ...posts.edges.map(({node: {slug}}) => ({
+        params: {slug},
       })),
-      ...pages.edges.map(({ node: page }) => ({
-        params: {
-          slug: page.slug,
-        },
+      ...pages.edges.map(({node: {slug}}) => ({
+        params: {slug},
       })),
     ],
     fallback: false,

@@ -1,7 +1,6 @@
 /**
  * Theme UI
  */
-
 import {system} from '@theme-ui/presets'
 
 export default {
