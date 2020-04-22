@@ -13,12 +13,14 @@ import Header from './../partials/header'
 const Layout = ({ app, children }) =>
   <Container mx={'auto'} px={2}>
     <Header
-      title={app.title}
-      description={app.description}
+      title={app.title || ''}
+      description={app.description || ''}
       menu={app.menus.primary || []}
     />
 
-    <main>{children}</main>
+    {children && (
+      <main>{children}</main>
+    )}
   </Container>
 
 export default Layout
