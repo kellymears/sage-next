@@ -3,24 +3,19 @@ import client from '../client'
 import app from './app'
 
 /**
- * Node: static props generator
+ * Post: static props generator
  *
  * @param  {object} params
  * @return {object}
  */
 const getStaticProps = async ({params}) => {
   const {settings, menus} = await app()
-  const {nodeByUri: node} = await client.request(`
+  const {post} = await client.request(`
     {
-      nodeByUri(uri: "${params.slug}") {
-        ... on Page {
-          content(format: RAW)
-          title
-        }
-        ... on Post {
-          content(format: RAW)
-          title
-        }
+      postBy(uri: "${params.slug}") {
+        content(format: RAW)
+        slug
+        title
       }
     }
   `)
@@ -31,30 +26,21 @@ const getStaticProps = async ({params}) => {
         menus,
         ...settings,
       },
-      node: { ...node },
+      node: {
+        ...post,
+      },
     }
   }
 }
 
 /**
- * Node: static paths generator
+ * Post: static paths generator
  *
  * @return {object} props
  */
 const getStaticPaths = async () => {
-  const {
-    posts,
-    pages,
-  } = await client.request(`{
+  const {posts} = await client.request(`{
     posts {
-      edges {
-        node {
-          slug
-          uri
-        }
-      }
-    }
-    pages {
       edges {
         node {
           slug
@@ -67,9 +53,6 @@ const getStaticPaths = async () => {
   return {
     paths: [
       ...posts.edges.map(({node: {slug}}) => ({
-        params: {slug},
-      })),
-      ...pages.edges.map(({node: {slug}}) => ({
         params: {slug},
       })),
     ],

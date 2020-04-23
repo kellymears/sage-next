@@ -14,7 +14,7 @@ import Single from '../views/single'
  * @prop {object} app
  * @prop {object} page
  */
-export default ({ app, node }) => (
+export default ({app, node}) => (
   <Layout app={app}>
     <Head>
       <title>{node.title} | {app.title}</title>
