@@ -7,10 +7,11 @@ import Content from './partials/content'
  * @prop {object} posts
  */
 export default ({posts}) =>
-  posts.map(({node: {title, uri, excerpt}}) =>
+  posts.edges.map(({node: {title, nextLinkHref, nextLinkAs, excerpt}}) =>
     <Content
       title={title}
-      uri={uri}
+      nextLinkHref={nextLinkHref}
+      nextLinkAs={nextLinkAs}
       excerpt={excerpt}
     />
   )

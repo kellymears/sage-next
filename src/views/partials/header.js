@@ -21,7 +21,7 @@ const Header = ({title, menu}) =>
     variant={'styles.header'}
     pt={2}
     pb={3}>
-    <Link as={`/`} href="/">
+    <Link as={`/`} href={`/`}>
       <Heading as={'h1'}>{title}</Heading>
     </Link>
     <Menu items={menu} />

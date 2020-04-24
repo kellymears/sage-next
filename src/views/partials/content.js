@@ -8,10 +8,10 @@ import { Box, Heading } from 'theme-ui'
  * @prop {string} uri
  * @prop {string} excerpt
  */
-const Content = ({ title, uri, excerpt }) =>
+const Content = ({ title, nextLinkAs, nextLinkHref, excerpt }) =>
   <Box as={'article'}>
     <Heading as={'h2'}>
-      <Link href={uri !== process.env.url ? `/[slug]` : `/index`} as={`${uri}`}>
+      <Link href={nextLinkHref} as={nextLinkAs}>
         {title}
       </Link>
     </Heading>

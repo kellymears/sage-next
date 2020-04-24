@@ -8,9 +8,9 @@ import app from './app'
  * @return {object}
  */
 const getStaticProps = async ({ params }) => {
-  const { settings, menus } = await app()
-  const {category} = await client.request(`{
-    category(id: "${params.slug}", idType: SLUG) {
+  const {settings, menus} = await app()
+  const {tag} = await client.request(`{
+    tag(id: "${params.slug}", idType: SLUG) {
       slug
       count
       name
@@ -19,7 +19,6 @@ const getStaticProps = async ({ params }) => {
         edges {
           node {
             title
-            uri
             slug
             excerpt
           }
@@ -34,7 +33,7 @@ const getStaticProps = async ({ params }) => {
         menus,
         ...settings,
       },
-      category,
+      tag,
     },
   }
 }
@@ -58,7 +57,7 @@ const getStaticPaths = async () => {
   }`)
 
   return {
-    paths: tags.edges && [
+    paths: [
       ...tags.edges.map(({ node: tag }) => ({
         params: {
           slug: tag.slug,

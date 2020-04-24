@@ -22,7 +22,7 @@ export default ({ app, category }) => (
     <Archive
       name={category.name || ''}
       description={category.description || ''}
-      posts={category.posts.edges || []}
+      posts={category.posts ? category.posts.edges : []}
     />
   </Layout>
 )

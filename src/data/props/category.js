@@ -19,9 +19,9 @@ const getStaticProps = async ({params}) => {
         edges {
           node {
             title
-            uri
-            slug
             excerpt
+            nextLinkAs
+            nextLinkHref
           }
         }
       }

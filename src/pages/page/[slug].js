@@ -2,11 +2,11 @@
 import Head from 'next/head'
 
 /** Application data */
-import {getStaticProps, getStaticPaths} from '../data/props/single'
+import {getStaticProps, getStaticPaths} from '../../data/props/page'
 
 /** Application views */
-import Layout from '../views/layout'
-import Single from '../views/single'
+import Layout from '../../views/layout'
+import Page from '../../views/page'
 
 /**
  * Page
@@ -14,13 +14,12 @@ import Single from '../views/single'
  * @prop {object} app
  * @prop {object} page
  */
-export default ({app, node}) => (
+export default ({app, page}) => (
   <Layout app={app}>
     <Head>
-      <title>{node.title} | {app.title}</title>
+      <title>{page.title} | {app.title}</title>
     </Head>
-
-    <Single node={node} />
+    <Page {...page} />
   </Layout>
 )
 

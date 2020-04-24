@@ -11,10 +11,12 @@ import app from './app'
 const getStaticProps = async ({params}) => {
   const {settings, menus} = await app()
   const {page} = await client.request(`{
-    pageBy(uri: "${params.slug}") {
-      content(format: RAW)
+    page(id: "/${params.slug}", idType: URI) {
+      content
       slug
       title
+      nextLinkHref
+      nextLinkAs
     }
   }`)
 
@@ -24,9 +26,7 @@ const getStaticProps = async ({params}) => {
         menus,
         ...settings,
       },
-      node: {
-        ...page,
-      },
+      page,
     }
   }
 }
@@ -37,14 +37,11 @@ const getStaticProps = async ({params}) => {
  * @return {object} props
  */
 const getStaticPaths = async () => {
-  const {
-    pages,
-  } = await client.request(`{
+  const {pages} = await client.request(`{
     pages {
       edges {
         node {
           slug
-          uri
         }
       }
     }
@@ -52,9 +49,7 @@ const getStaticPaths = async () => {
 
   return {
     paths: [
-      ...pages.edges.map(({node: {slug}}) => ({
-        params: {slug},
-      })),
+      ...pages.edges.map(({node: params}) => ({params})),
     ],
     fallback: false,
   }

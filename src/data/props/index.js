@@ -13,8 +13,9 @@ const getStaticProps = async () => {
         node {
           title
           excerpt
-          content
           uri
+          nextLinkAs
+          nextLinkHref
         }
       }
     }
@@ -26,7 +27,7 @@ const getStaticProps = async () => {
         menus,
         ...settings,
       },
-      posts: posts ? posts.edges : [],
+      posts,
     },
   }
 }

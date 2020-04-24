@@ -21,9 +21,7 @@ const menus = async () => {
   let menus = {}
 
   const {
-    menus: {
-      edges,
-    },
+    menus: {edges},
   } = await client.request(`{
     menus {
       edges {
@@ -36,25 +34,6 @@ const menus = async () => {
                 target
                 title
                 url
-                connectedObject {
-                  ... on Post {
-                    id
-                    contentType {
-                      node {
-                        name
-                      }
-                    }
-                  }
-                  ... on Page {
-                    id
-                    isFrontPage
-                    contentType {
-                      node {
-                        name
-                      }
-                    }
-                  }
-                }
               }
             }
           }
@@ -67,7 +46,7 @@ const menus = async () => {
       menus = {
         ...menus,
         [name]: menuItems.edges.map(({node}) => {
-          node.url = node.url.replace(`${process.env.url}/`, '/')
+          node.url = node.url.replace(`${process.env.url}`, '/')
           return node
         })
       }

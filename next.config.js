@@ -1,16 +1,23 @@
-// next.config.js
+/**
+ * Next config
+ */
 const withPlugins = require('next-compose-plugins');
 const optimizedImages = require('next-optimized-images');
-const config = {
-  dev: require('./build/next.development'),
-  production: require('./build/next.production'),
-}
 
 /**
  * Next config
  */
-const TARGET = 'production'
-module.exports = withPlugins(
-  [[optimizedImages, { optimizeImagesInDev: true }]],
-  config[TARGET]
-)
+module.exports = withPlugins([[optimizedImages, {
+  optimizeImagesInDev: true,
+}]], {
+  // assetPrefix: '/app/themes/sage-next/out/',
+  compress: true,
+  distDir: `/dist`,
+  env: {
+    reqMode: 'no-cors',
+    version: '1.0.0',
+    graphQLEndpoint: 'http://kellymears.vagrant/wp/graphql',
+    url: 'http://kellymears.vagrant',
+  },
+  poweredByHeader: false,
+})

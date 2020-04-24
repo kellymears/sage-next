@@ -17,6 +17,11 @@
     "issues": "https://github.com/roots/sage-next/issues",
     "forum": "https://discourse.roots.io/"
   },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app"
+    }
+  },
   "require": {
     "php": "^7.2.5",
     "illuminate/container": "^7.7",
