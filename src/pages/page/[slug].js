@@ -14,11 +14,12 @@ import Page from '../../views/page'
  * @prop {object} app
  * @prop {object} page
  */
-export default ({app, page}) => (
+export default({app, page})=> (
   <Layout app={app}>
     <Head>
       <title>{page.title} | {app.title}</title>
     </Head>
+
     <Page {...page} />
   </Layout>
 )
