@@ -33,12 +33,6 @@ use Mimey\MimeTypes;
     /** @var string */
     public $staticDir;
 
-    /** @var string */
-    public $buildId;
-
-    /** @var object */
-    public $buildManifest;
-
     /**
      * Class constructor.
      */
@@ -56,16 +50,6 @@ use Mimey\MimeTypes;
         /** Next JS build directory */
         $this->staticDir = __DIR__ . '/out';
         $this->distDir = __DIR__ . '/dist';
-
-        /** Next build identifier */
-        if (realpath($buildIdFile = "{$this->distDir}/BUILD_ID")) {
-            $this->buildId = file_get_contents($buildIdFile);
-        }
-
-        /** Next manifest */
-        if (realpath($buildManifestFile = "{$this->distDir}/build-manifest.json")) {
-            $this->buildManifest = json_decode(file_get_contents($buildManifestFile));
-        }
     }
 
     /**
@@ -99,10 +83,29 @@ use Mimey\MimeTypes;
      */
     public function routeRequests()
     {
+        /**
+         * Single template previews
+         */
+        if (is_preview()) {
+            $this->router->any('{any}', function () {
+                /** Construct and return response to router */
+                $response = new Response($this->getStaticContents('/preview.html'), 200);
+                $response->header('Content-Type', 'text/html');
+
+                return $response;
+            })->where('any', '(.*)');
+
+            /** Dispatch response */
+            return $this->router->dispatch($this->request)->send();
+        }
+
+        /**
+         * Static requests
+         */
         if ($this->isStaticRequest()) {
             $this->router->get('{any}', function () {
                 /** Filesystem path of requested asset */
-                $filePath = str_replace('_next/', __DIR__ . '/out/_next/', $this->request->getPathInfo());
+                $filePath = str_replace('_next/', $this->staticDir . '/_next/', $this->request->getPathInfo());
 
                 /** Handle [ and ] chars in Next wildcard static paths */
                 $filePath = str_replace('%5B', '[', $filePath);
@@ -116,7 +119,7 @@ use Mimey\MimeTypes;
                 $response->header('Content-Type', $mimeType);
 
                 return $response;
-            })->where('any', '(.*)');;
+            })->where('any', '(.*)');
 
             /** Dispatch response */
             return $this->router->dispatch($this->request)->send();
@@ -152,20 +155,6 @@ use Mimey\MimeTypes;
             /** Dispatch response */
             return $this->router->dispatch($this->request)->send();
         }
-
-        /**
-         * Otherwise return the 404 contents and a 404 status code.
-         */
-        $this->router->any('{any}', function () {
-            /** Construct and return response to router */
-            $response = new Response($this->getStaticContents('404.html'), 404);
-            $response->header('Content-Type', 'text/html');
-
-            return $response;
-        })->where('any', '(.*)');
-
-        /** Dispatch response */
-        return $this->router->dispatch($this->request)->send();
     }
 
     /**

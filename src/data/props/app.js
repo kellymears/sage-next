@@ -39,15 +39,14 @@ const menus = async (props = {}) => {
   }`)
 
   menus.edges.forEach(({node: {name, menuItems}}) => {
-      props.menus = {
-        ...props.menus,
-        [name]: menuItems.edges.map(({node}) => ({
-          ...node,
-          url: node.url.replace(`${process.env.url}`, '/')
-        }))
-      }
+    props.menus = {
+      ...props.menus,
+      [name]: menuItems.edges.map(({node}) => ({
+        ...node,
+        url: node.url.replace(`${process.env.url}`, '/')
+      }))
     }
-  )
+  })
 
   return {...props.menus}
 }
