@@ -9,6 +9,7 @@ use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Router;
+use Mimey\MimeTypes;
 
 /**
  * Sage Next.
@@ -27,10 +28,10 @@ use Illuminate\Routing\Router;
     public $response;
 
     /** @var string */
-    public $buildId;
+    public $staticDir;
 
     /** @var string */
-    public $buildDir;
+    public $buildId;
 
     /** @var object */
     public $buildManifest;
@@ -46,16 +47,20 @@ use Illuminate\Routing\Router;
         $this->app = new Container();
         $this->request = Request::capture();
 
+        /** Mime-Type helper */
+        $this->mimes = new MimeTypes();
+
         /** Next JS build directory */
-        $this->buildDir = __DIR__ . '/out';
+        $this->staticDir = __DIR__ . '/out';
+        $this->distDir = __DIR__ . '/dist';
 
         /** Next build identifier */
-        if ($buildIdFile = realpath(__DIR__ . '/dist/BUILD_ID')) {
+        if (realpath($buildIdFile = "{$this->distDir}/BUILD_ID")) {
             $this->buildId = file_get_contents($buildIdFile);
         }
 
         /** Next manifest */
-        if ($buildManifestFile = realpath(__DIR__ . '/dist/build-manifest.json')) {
+        if (realpath($buildManifestFile = "{$this->distDir}/build-manifest.json")) {
             $this->buildManifest = json_decode(file_get_contents($buildManifestFile));
         }
     }
@@ -67,36 +72,64 @@ use Illuminate\Routing\Router;
      */
     public function __invoke(): void
     {
-        /** Eject early if request shouldn't be routed to Next */
-        if (! is_admin() && strpos($this->request->getPathInfo(), 'out/_next/static')) {
+        /** Eject early if request isn't appropriate */
+        if (is_admin()) {
             return;
         }
 
-        /** Initialize request, response and router instances. */
+        /** Initialize request, response */
         $this->app->instance('Illuminate\Http\Request', $this->request);
         $this->app->instance('Illuminate\Http\Response', $this->response);
 
+        /** Initialize router */
         $this->events = new Dispatcher($this->app);
         $this->router = new Router($this->events, $this->app);
 
-        /** Handle requests. */
+        /** 🚀 */
         $this->routeRequests();
     }
 
     /**
      * Route requests.
+     *
+     * @return void
      */
     public function routeRequests()
     {
+        if ($this->isStaticRequest()) {
+            $this->router->get('{any}', function () {
+                /** Filesystem path of requested asset */
+                $filePath = str_replace('_next/', __DIR__ . '/out/_next/', $this->request->getPathInfo());
+
+                /** Handle [ and ] chars in Next wildcard static paths */
+                $filePath = str_replace('%5B', '[', $filePath);
+                $filePath = str_replace('%5D', ']', $filePath);
+
+                /** Determine mime-type of response */
+                $mimeType = $this->mimes->getMimeType(pathinfo($filePath, PATHINFO_EXTENSION));
+
+                /** Construct and return response to router */
+                $response = new Response(file_get_contents($filePath), 200);
+                $response->header('Content-Type', $mimeType);
+
+                return $response;
+            })->where('any', '(.*)');;
+
+            /** Dispatch response */
+            return $this->router->dispatch($this->request)->send();
+        }
+
         /** Route: index */
         if ($this->request->getPathInfo() == '/') {
             $this->router->get('/', function () {
-                $response = new Response(file_get_contents("{$this->buildDir}/index.html"), 200);
+                /** Construct and return response to router */
+                $response = new Response($this->getStaticContents('index.html'), 200);
                 $response->header('Content-Type', 'text/html');
 
                 return $response;
             });
 
+            /** Dispatch response */
             return $this->router->dispatch($this->request)->send();
         }
 
@@ -106,27 +139,52 @@ use Illuminate\Routing\Router;
          */
         if ($this->isNextEntrypoint()) {
             $this->router->any('{any}', function () {
+                /** Construct and return response to router */
                 $response = new Response(file_get_contents($this->entry), 200);
                 $response->header('Content-Type', 'text/html');
 
                 return $response;
             })->where('any', '(.*)');
 
+            /** Dispatch response */
             return $this->router->dispatch($this->request)->send();
-        }
-
         /**
          * Otherwise return the 404 contents and a 404 status code.
          */
-        $this->router->any('{any}', function () {
-            $response = new Response(file_get_contents(__DIR__ . '/out/404.html'), 404);
-            $response->header('Content-Type', 'text/html');
+        } else {
+            $this->router->any('{any}', function () {
+                /** Construct and return response to router */
+                $response = new Response($this->getStaticContents('404.html'), 404);
+                $response->header('Content-Type', 'text/html');
 
-            return $response;
-        })->where('any', '(.*)');
+                return $response;
+            })->where('any', '(.*)');
 
-        /** Dispatch response */
-        return $this->router->dispatch($this->request)->send();
+            /** Dispatch response */
+            return $this->router->dispatch($this->request)->send();
+        }
+    }
+
+    /**
+     * Get static file contents
+     *
+     * @param  string
+     * @return string
+     */
+    public function getStaticContents($file): string
+    {
+        return file_get_contents("{$this->staticDir}/{$file}");
+    }
+
+    /**
+     * Get dist file contents
+     *
+     * @param  string
+     * @return string
+     */
+    public function getDistContents($file): string
+    {
+        return file_get_contents("{$this->distDir}/{$file}");
     }
 
     /**
@@ -136,8 +194,17 @@ use Illuminate\Routing\Router;
      */
     public function isNextEntrypoint(): bool
     {
-        return realpath(
-            $this->entry = __DIR__ . '/out' . rtrim($this->request->getPathInfo(), '/\\') . '.html'
-        );
+        $requestFile = rtrim($this->request->getPathInfo(), '/\\') . '.html';
+        return realpath($this->entry = "{$this->staticDir}/{$requestFile}");
+    }
+
+    /**
+     * Is static resource request
+     *
+     * @return bool
+     */
+    public function isStaticRequest(): bool
+    {
+        return strpos($this->request->getPathInfo(), '_next');
     }
 })();

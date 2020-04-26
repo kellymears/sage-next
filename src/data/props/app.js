@@ -5,24 +5,20 @@ import client from '../client'
  */
 const settings = async () => {
   const {generalSettings} = await client.request(`{
-    generalSettings {
-      title
-      description
-    }
-  }`)
+      generalSettings {
+        title
+        description
+      }
+    }`)
 
-  return generalSettings
+    return { ...generalSettings }
 }
 
 /**
  * Menus
  */
-const menus = async () => {
-  let menus = {}
-
-  const {
-    menus: {edges},
-  } = await client.request(`{
+const menus = async (props = {}) => {
+  const {menus} = await client.request(`{
     menus {
       edges {
         node {
@@ -42,29 +38,24 @@ const menus = async () => {
     }
   }`)
 
-  edges.forEach(({node: {name, menuItems}}) => {
-      menus = {
-        ...menus,
-        [name]: menuItems.edges.map(({node}) => {
-          node.url = node.url.replace(`${process.env.url}`, '/')
-          return node
-        })
+  menus.edges.forEach(({node: {name, menuItems}}) => {
+      props.menus = {
+        ...props.menus,
+        [name]: menuItems.edges.map(({node}) => ({
+          ...node,
+          url: node.url.replace(`${process.env.url}`, '/')
+        }))
       }
     }
   )
 
-  return menus
+  return {...props.menus}
 }
 
 /**
  * App
  */
-export default async () => {
-  const appMenus = await menus()
-  const appSettings = await settings()
-
-  return {
-    menus: appMenus,
-    settings: appSettings,
-  }
-}
+export default async () => ({
+  menus: { ...await menus() },
+  settings: { ...await settings() },
+})
