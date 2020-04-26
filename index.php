@@ -27,6 +27,9 @@ use Mimey\MimeTypes;
     /** @var \Illuminate\Http\Response */
     public $response;
 
+    /** @var \Mimey\MimeTypes */
+    public $mimes;
+
     /** @var string */
     public $staticDir;
 
@@ -148,21 +151,21 @@ use Mimey\MimeTypes;
 
             /** Dispatch response */
             return $this->router->dispatch($this->request)->send();
+        }
+
         /**
          * Otherwise return the 404 contents and a 404 status code.
          */
-        } else {
-            $this->router->any('{any}', function () {
-                /** Construct and return response to router */
-                $response = new Response($this->getStaticContents('404.html'), 404);
-                $response->header('Content-Type', 'text/html');
+        $this->router->any('{any}', function () {
+            /** Construct and return response to router */
+            $response = new Response($this->getStaticContents('404.html'), 404);
+            $response->header('Content-Type', 'text/html');
 
-                return $response;
-            })->where('any', '(.*)');
+            return $response;
+        })->where('any', '(.*)');
 
-            /** Dispatch response */
-            return $this->router->dispatch($this->request)->send();
-        }
+        /** Dispatch response */
+        return $this->router->dispatch($this->request)->send();
     }
 
     /**
