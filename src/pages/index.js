@@ -2,7 +2,7 @@
 import Head from 'next/head'
 
 /** Application data */
-import { getStaticProps } from '../data/props/index'
+import {getStaticProps} from '../data/props/index'
 
 /** Application views */
 import Layout from '../views/layout'
@@ -15,9 +15,7 @@ import Index from '../views/index'
  * @prop {object} posts
  */
 export default props => {
-  const { app, posts } = props
-    ? props
-    : getStaticProps()
+  const {app, posts} = props ? props : getStaticProps()
 
   return (
     <Layout app={app}>
@@ -30,4 +28,4 @@ export default props => {
   )
 }
 
-export { getStaticProps }
+export {getStaticProps}

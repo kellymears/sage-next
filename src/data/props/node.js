@@ -1,6 +1,6 @@
 /** graphql */
 import client from '../client'
-import app from './app'
+import appData from './app'
 
 /**
  * Single: static props generator
@@ -9,7 +9,7 @@ import app from './app'
  * @return {object}
  */
 const getStaticProps = async ({params}) => {
-  const {settings, menus} = await app()
+  const app = await appData()
   const {nodeByUri: node} = await client.request(`{
     nodeByUri (uri: "${params.slug}") {
       __typename
@@ -18,42 +18,56 @@ const getStaticProps = async ({params}) => {
           firstName
           lastName
         }
+        categories {
+          edges {
+            node {
+              name
+              uri
+            }
+          }
+        }
         content
         date
         excerpt
         featuredImage {
+          caption
           sourceUrl
+          title
         }
-        uri
-        title
         nextLinkHref
         nextLinkAs
+        tags {
+          edges {
+            node {
+              name
+              uri
+            }
+          }
+        }
+        title
+        uri
       }
       ... on Page {
         content
-        uri
         featuredImage {
+          caption
           sourceUrl
+          title
         }
-        title
         nextLinkHref
         nextLinkAs
+        title
+        uri
       }
     }
   }`)
 
   return {
     props: {
-      app: {
-        menus,
-        ...settings,
-      },
+      app,
       node: {
         ...node,
         type: node.__typename,
-        image: node.featuredImage
-          ? node.featuredImage.sourceUrl
-          : null,
       },
     }
   }

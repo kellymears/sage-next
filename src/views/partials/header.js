@@ -5,7 +5,7 @@ import Link from 'next/link'
 import {Flex, Heading} from 'theme-ui'
 
 /** Components */
-import Menu from '../components/menu'
+import Nav from '../components/Nav'
 
 /**
  * Partials: Header
@@ -14,17 +14,17 @@ import Menu from '../components/menu'
  * @prop {string} description
  * @prop {array}  menu
  */
-const Header = ({title, menu}) =>
+const Header = ({title, description, menu}) =>
   <Flex
-    as={'header'}
-    alignItems={'center'}
-    variant={'styles.header'}
+    as="header"
+    variant="styles.header"
     pt={2}
-    pb={3}>
+    pb={3}
+  >
     <Link as={`/`} href={`/`}>
       <Heading as={'h1'}>{title}</Heading>
     </Link>
-    <Menu items={menu} />
+    <Nav menu={menu} />
   </Flex>
 
 export default Header

@@ -10,7 +10,7 @@ import Header from './../partials/header'
  * @prop {object} app
  * @prop {object} children
  */
-const Layout = ({ app, children }) =>
+const Layout = ({app, children}) =>
   <Container mx={'auto'} px={2}>
     <Header
       title={app.title || ''}
@@ -18,9 +18,7 @@ const Layout = ({ app, children }) =>
       menu={app.menus.primary || []}
     />
 
-    {children && (
-      <main>{children}</main>
-    )}
+    {children && <main>{children}</main>}
   </Container>
 
 export default Layout

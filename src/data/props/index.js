@@ -1,12 +1,12 @@
 /** graphql */
 import client from '../client'
-import app from './app'
+import appData from './app'
 
 /**
  * Props: Index
  */
 const getStaticProps = async () => {
-  const {settings, menus} = await app()
+  const app = await appData()
   const {posts} = await client.request(`{
     posts {
       edges {
@@ -22,13 +22,7 @@ const getStaticProps = async () => {
   }`)
 
   return {
-    props: {
-      app: {
-        menus,
-        ...settings,
-      },
-      posts,
-    },
+    props: {app, posts},
   }
 }
 

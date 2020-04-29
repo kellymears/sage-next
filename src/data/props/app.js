@@ -1,60 +1,56 @@
 import client from '../client'
 
 /**
- * App settings
+ * Application data
  */
-const settings = async () => {
-  const {generalSettings} = await client.request(`{
+export default async (app = {}) => {
+  const query = await client.request(`
+    {
       generalSettings {
         title
         description
       }
-    }`)
-
-    return { ...generalSettings }
-}
-
-/**
- * Menus
- */
-const menus = async (props = {}) => {
-  const {menus} = await client.request(`{
-    menus {
-      edges {
-        node {
-          name
-          menuItems {
-            edges {
-              node {
-                label
-                target
-                title
-                url
+      menus {
+        edges {
+          node {
+            name
+            menuItems {
+              edges {
+                node {
+                  label
+                  target
+                  title
+                  url
+                  connectedObject {
+                    ... on Post {
+                      nextLinkHref
+                      nextLinkAs
+                    }
+                    ... on Page {
+                      nextLinkHref
+                      nextLinkAs
+                    }
+                  }
+                }
               }
             }
           }
         }
       }
     }
-  }`)
+  `)
 
-  menus.edges.forEach(({node: {name, menuItems}}) => {
-    props.menus = {
-      ...props.menus,
+  app = {...query.generalSettings}
+
+  query.menus.edges.forEach(({node: {name, menuItems}}) => {
+    app.menus = {
+      ...app.menus,
       [name]: menuItems.edges.map(({node}) => ({
         ...node,
-        url: node.url.replace(`${process.env.url}`, '/')
+        ...node.connectedObject,
       }))
     }
   })
 
-  return {...props.menus}
+  return {...app}
 }
-
-/**
- * App
- */
-export default async () => ({
-  menus: { ...await menus() },
-  settings: { ...await settings() },
-})

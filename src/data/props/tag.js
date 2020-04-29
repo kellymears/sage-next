@@ -1,14 +1,15 @@
 /** graphql */
 import client from '../client'
-import app from './app'
+import appData from './app'
+
 /**
  * Tag: static props generator
  *
  * @param  {object} params
  * @return {object}
  */
-const getStaticProps = async ({ params }) => {
-  const {settings, menus} = await app()
+const getStaticProps = async ({params}) => {
+  const app = await appData()
   const {tag} = await client.request(`{
     tag(id: "${params.slug}", idType: SLUG) {
       slug
@@ -28,13 +29,7 @@ const getStaticProps = async ({ params }) => {
   }`)
 
   return {
-    props: {
-      app: {
-        menus,
-        ...settings,
-      },
-      tag,
-    },
+    props: {app, tag},
   }
 }
 
@@ -45,7 +40,7 @@ const getStaticProps = async ({ params }) => {
  * @return {object}
  */
 const getStaticPaths = async () => {
-  const { tags } = await client.request(`{
+  const {tags} = await client.request(`{
     tags {
       edges {
         node {

@@ -1,6 +1,6 @@
 /** graphql */
 import client from '../client'
-import app from './app'
+import appData from './app'
 
 /**
  * Props: Category Archive
@@ -8,7 +8,7 @@ import app from './app'
  * @param {object} params
  */
 const getStaticProps = async ({params}) => {
-  const {settings, menus} = await app()
+  const app = await appData()
   const {category} = await client.request(`{
     category(id: "${params.slug}", idType: SLUG) {
       slug
@@ -29,13 +29,7 @@ const getStaticProps = async ({params}) => {
   }`)
 
   return {
-    props: {
-      app: {
-        menus,
-        ...settings,
-      },
-      category,
-    },
+    props: {app, category},
   }
 }
 
