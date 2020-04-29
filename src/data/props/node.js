@@ -22,7 +22,7 @@ const getStaticProps = async ({params}) => {
         date
         excerpt
         featuredImage {
-          uri
+          sourceUrl
         }
         uri
         title
@@ -32,6 +32,9 @@ const getStaticProps = async ({params}) => {
       ... on Page {
         content
         uri
+        featuredImage {
+          sourceUrl
+        }
         title
         nextLinkHref
         nextLinkAs
@@ -48,6 +51,9 @@ const getStaticProps = async ({params}) => {
       node: {
         ...node,
         type: node.__typename,
+        image: node.featuredImage
+          ? node.featuredImage.sourceUrl
+          : null,
       },
     }
   }
