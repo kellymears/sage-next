@@ -5,18 +5,21 @@ import { Box, Heading } from 'theme-ui'
  * Partials: Content
  *
  * @prop {string} title
- * @prop {string} uri
+ * @prop {string} linkAs
+ * @prop {string} linkHref
  * @prop {string} excerpt
  */
-const Content = ({ title, nextLinkAs, nextLinkHref, excerpt }) =>
+const Content = ({title, linkAs, linkHref, excerpt}) =>
   <Box as={'article'}>
     <Heading as={'h2'}>
-      <Link href={nextLinkHref} as={nextLinkAs}>
+      <Link href={linkHref} as={linkAs}>
         {title}
       </Link>
     </Heading>
 
-    <Box dangerouslySetInnerHTML={{__html: excerpt || null }} />
+    <Box dangerouslySetInnerHTML={{
+      __html: excerpt || null,
+    }} />
   </Box>
 
 export default Content

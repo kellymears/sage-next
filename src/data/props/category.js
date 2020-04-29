@@ -20,8 +20,10 @@ const getStaticProps = async ({params}) => {
           node {
             title
             excerpt
-            nextLinkAs
-            nextLinkHref
+            next {
+              linkAs
+              linkHref
+            }
           }
         }
       }
@@ -29,7 +31,16 @@ const getStaticProps = async ({params}) => {
   }`)
 
   return {
-    props: {app, category},
+    props: {
+      app,
+      category: {
+        ...category,
+        posts: category.posts.edges.map(({node}) => ({
+          ...node,
+          ...node.next,
+        })),
+      },
+    },
   }
 }
 
@@ -41,7 +52,6 @@ const getStaticPaths = async () => {
     categories {
       edges {
         node {
-          id
           slug
         }
       }

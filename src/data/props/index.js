@@ -13,16 +13,23 @@ const getStaticProps = async () => {
         node {
           title
           excerpt
-          uri
-          nextLinkAs
-          nextLinkHref
+          next {
+            linkAs
+            linkHref
+          }
         }
       }
     }
   }`)
 
   return {
-    props: {app, posts},
+    props: {
+      app,
+      posts: posts.edges.map(({node}) => ({
+        ...node,
+        ...node.next,
+      })),
+    },
   }
 }
 

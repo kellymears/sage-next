@@ -1,3 +1,5 @@
+import {resolve} from 'path'
+
 /** graphql */
 import client from '../client'
 import appData from './app'
@@ -14,9 +16,19 @@ const getStaticProps = async ({params}) => {
     nodeByUri (uri: "${params.slug}") {
       __typename
       ... on Post {
+        title
         author {
           firstName
           lastName
+        }
+        date
+        excerpt
+        featuredImage {
+          caption
+          sourceUrl
+          srcSet
+          mimeType
+          title
         }
         categories {
           edges {
@@ -26,16 +38,6 @@ const getStaticProps = async ({params}) => {
             }
           }
         }
-        content
-        date
-        excerpt
-        featuredImage {
-          caption
-          sourceUrl
-          title
-        }
-        nextLinkHref
-        nextLinkAs
         tags {
           edges {
             node {
@@ -44,20 +46,26 @@ const getStaticProps = async ({params}) => {
             }
           }
         }
-        title
-        uri
+        next {
+          content
+          url
+          linkAs
+          linkHref
+        }
       }
       ... on Page {
-        content
+        title
         featuredImage {
           caption
           sourceUrl
           title
         }
-        nextLinkHref
-        nextLinkAs
-        title
-        uri
+        next {
+          content
+          url
+          linkAs
+          linkHref
+        }
       }
     }
   }`)
@@ -67,9 +75,10 @@ const getStaticProps = async ({params}) => {
       app,
       node: {
         ...node,
+        ...node.next,
         type: node.__typename,
       },
-    }
+    },
   }
 }
 

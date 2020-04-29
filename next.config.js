@@ -7,17 +7,16 @@ const optimizedImages = require('next-optimized-images');
 /**
  * Next config
  */
-module.exports = withPlugins([[optimizedImages, {
-  optimizeImagesInDev: true,
-}]], {
-  // assetPrefix: '/app/themes/sage-next/out/',
+module.exports = withPlugins([
+  [optimizedImages, { optimizeImagesInDev: true }],
+], {
   compress: true,
   distDir: `/dist`,
   env: {
     reqMode: 'no-cors',
     version: '1.0.0',
-    graphQLEndpoint: 'http://kellymears.vagrant/wp/graphql',
-    url: 'http://kellymears.vagrant',
+    graphQLEndpoint: `${process.env.URL}/wp/graphql`,
+    url: process.env.URL,
   },
   poweredByHeader: false,
 })

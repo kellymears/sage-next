@@ -7,24 +7,20 @@ import Content from './partials/content'
 /**
  * Archive.
  *
+ * @prop {string} name
+ * @prop {string} description
  * @prop {object} posts
  */
 export default ({name, description, posts}) =>
   <Box>
     <Heading as={'h2'}>{name}</Heading>
-    <Box dangerouslySetInnerHTML={{ __html: description || null }} />
-
-    {posts.edges && posts.edges.map(({node: {
-      title,
-      excerpt,
-      nextLinkAs,
-      nextLinkHref
-    }}) =>
+    <Box dangerouslySetInnerHTML={{__html: description}} />
+    {posts.map(({title, excerpt, linkAs, linkHref}) =>
       <Content
-        title={title || null}
-        nextLinkAs={nextLinkAs}
-        nextLinkHref={nextLinkHref}
-        excerpt={excerpt || null}
+        title={title}
+        linkAs={linkAs}
+        linkHref={linkHref}
+        excerpt={excerpt}
       />
     )}
   </Box>

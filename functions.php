@@ -4,37 +4,56 @@ namespace App;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use Illuminate\Support\Collection;
-
-remove_action('template_redirect', 'redirect_canonical');
-
 /**
  * Theme and GraphQL setup.
  */
 (new class() {
+    public $host;
+    public $type;
+    public $fields;
+
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->gutenbergTypes = Collection::make(['Post', 'Page']);
+        $this->host = get_home_url();
 
-        $this->nextLinkFields = Collection::make([
-            'nextLinkAs' => [
+        $this->fields = [
+            'url' => [
                 'type' => 'String',
-                'description' => __('Raw content', 'sage-next'),
-                'resolve' => function ($post) {
-                    return '/' . get_page_uri($post->ID);
-                }
+                'description' => __('URL', 'sage-next'),
             ],
-            'nextLinkHref' => [
+            'linkAs' => [
                 'type' => 'String',
-                'description' => __('Raw content', 'sage-next'),
-                'resolve' => function () {
-                    return "/[slug]";
-                }
-            ]
-        ]);
+                'description' => __('Link component helper', 'sage-next'),
+            ],
+            'linkHref' => [
+                'type' => 'String',
+                'description' => __('Link component helper', 'sage-next'),
+            ],
+            'content' => [
+                'type' => 'String',
+                'description' => __('Filtered content', 'sage-next'),
+            ],
+            'featuredImagePath' => [
+                'type' => 'String',
+                'description' => __('Featured media URL', 'sage-next')
+            ],
+        ];
+
+        $this->type = [
+            'description' => __('Next JS specific data', 'sage-next'),
+            'type' => 'Next',
+            'resolve' => function ($post) {
+                return [
+                    'url' => '/' . get_page_uri($post->ID),
+                    'linkAs' => '/' . get_page_uri($post->ID),
+                    'linkHref' => '/[slug]',
+                    'content' => str_replace('href="' . $this->host, 'href="', get_the_content($post->ID)),
+                ];
+            },
+        ];
     }
 
     /**
@@ -43,15 +62,16 @@ remove_action('template_redirect', 'redirect_canonical');
     public function __invoke(): void
     {
         add_action('after_setup_theme', [$this, 'setup'], 20);
+        remove_action('template_redirect', 'redirect_canonical');
 
         add_action('graphql_register_types', function() {
-            $this->gutenbergTypes->each(function ($type) {
-                $this->nextLinkFields->each(
-                    function ($definition, $field) use ($type) {
-                        register_graphql_field($type, $field, $definition);
-                    }
-                );
-            });
+            register_graphql_type('Next', [
+                'description' => __( "Next framework specific fields", 'sage-next' ),
+                'fields' => $this->fields,
+            ]);
+
+            register_graphql_field('Post', 'next', $this->type);
+            register_graphql_field('Page', 'next', $this->type);
         });
     }
 

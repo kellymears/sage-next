@@ -20,7 +20,6 @@ const getStaticProps = async ({params}) => {
         edges {
           node {
             title
-            slug
             excerpt
           }
         }

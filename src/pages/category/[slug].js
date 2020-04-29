@@ -11,19 +11,15 @@ import Archive from '../../views/archive'
 /**
  * Archive: Category
  */
-export default ({ app, category }) => (
+export default ({app, category: {name, description, posts}}) => (
   <Layout app={app}>
     <Head>
       <title>
-        {category.name} | {app.title}
+        {name} | {app.title}
       </title>
     </Head>
 
-    <Archive
-      name={category.name || ''}
-      description={category.description || ''}
-      posts={category.posts ? category.posts.edges : []}
-    />
+    {posts && <Archive name={name} description={description} posts={posts} />}
   </Layout>
 )
 

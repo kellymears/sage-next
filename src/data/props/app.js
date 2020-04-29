@@ -23,12 +23,16 @@ export default async (app = {}) => {
                   url
                   connectedObject {
                     ... on Post {
-                      nextLinkHref
-                      nextLinkAs
+                      next {
+                        linkAs
+                        linkHref
+                      }
                     }
                     ... on Page {
-                      nextLinkHref
-                      nextLinkAs
+                      next {
+                        linkAs
+                        linkHref
+                      }
                     }
                   }
                 }
@@ -47,7 +51,7 @@ export default async (app = {}) => {
       ...app.menus,
       [name]: menuItems.edges.map(({node}) => ({
         ...node,
-        ...node.connectedObject,
+        ...node.connectedObject.next,
       }))
     }
   })

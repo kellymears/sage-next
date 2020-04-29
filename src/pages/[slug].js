@@ -12,7 +12,7 @@ import Page from '../views/page'
 /**
  * Components
  */
-const components = { Post, Page }
+const components = {Post, Page}
 
 /**
  * Single

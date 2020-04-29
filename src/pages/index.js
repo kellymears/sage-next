@@ -14,18 +14,14 @@ import Index from '../views/index'
  * @prop {object} app
  * @prop {object} posts
  */
-export default props => {
-  const {app, posts} = props ? props : getStaticProps()
+export default ({app, posts}) => (
+  <Layout app={app}>
+    <Head>
+      <title>{app.title}</title>
+    </Head>
 
-  return (
-    <Layout app={app}>
-      <Head>
-        <title>{app.title}</title>
-      </Head>
-
-      <Index posts={posts} />
-    </Layout>
-  )
-}
+    <Index posts={posts} />
+  </Layout>
+)
 
 export {getStaticProps}
