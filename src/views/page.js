@@ -1,5 +1,4 @@
 import {Box, Heading} from 'theme-ui'
-import Block from './components/block'
 
 /**
  * Page

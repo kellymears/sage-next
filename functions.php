@@ -6,6 +6,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use Illuminate\Support\Collection;
 
+remove_action('template_redirect', 'redirect_canonical');
+
 /**
  * Theme and GraphQL setup.
  */
@@ -22,14 +24,14 @@ use Illuminate\Support\Collection;
                 'type' => 'String',
                 'description' => __('Raw content', 'sage-next'),
                 'resolve' => function ($post) {
-                    return "/{$post->post_type}/" . get_page_uri($post->ID);
+                    return '/' . get_page_uri($post->ID);
                 }
             ],
             'nextLinkHref' => [
                 'type' => 'String',
                 'description' => __('Raw content', 'sage-next'),
-                'resolve' => function ($post) {
-                    return "/{$post->post_type}/[slug]";
+                'resolve' => function () {
+                    return "/[slug]";
                 }
             ]
         ]);
@@ -41,14 +43,15 @@ use Illuminate\Support\Collection;
     public function __invoke(): void
     {
         add_action('after_setup_theme', [$this, 'setup'], 20);
-        remove_action('template_redirect', 'redirect_canonical');
 
         add_action('graphql_register_types', function() {
             $this->gutenbergTypes->each(function ($type) {
-                    $this->nextLinkFields->each(function ($definition, $field) use ($type) {
+                $this->nextLinkFields->each(
+                    function ($definition, $field) use ($type) {
                         register_graphql_field($type, $field, $definition);
-                    });
-                });
+                    }
+                );
+            });
         });
     }
 
