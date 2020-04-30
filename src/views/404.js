@@ -6,7 +6,7 @@ import {Box, Heading} from 'theme-ui'
  * @prop {object} post
  */
 export default () =>
-  <Box as={'article'}>
+  <Box>
     <Heading as={'h1'}>
       404
     </Heading>

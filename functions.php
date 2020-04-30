@@ -5,7 +5,7 @@ namespace App;
 require_once __DIR__ . '/vendor/autoload.php';
 
 /**
- * Theme and GraphQL setup.
+ * WPGraphQL Next interface.
  */
 (new class() {
     public $host;
@@ -13,11 +13,24 @@ require_once __DIR__ . '/vendor/autoload.php';
     public $fields;
 
     /**
-     * Constructor.
+     * Class constructor.
      */
     public function __construct()
     {
         $this->host = get_home_url();
+
+        $this->type = [
+            'description' => __('Next JS specific data', 'sage-next'),
+            'type' => 'Next',
+            'resolve' => function ($post) {
+                return [
+                    'url' => '/' . get_page_uri($post->ID),
+                    'linkAs' => '/' . get_page_uri($post->ID),
+                    'linkHref' => '/[slug]',
+                    'content' => str_replace('href="' . $this->host, 'href="', get_the_content($post->ID)),
+                ];
+            },
+        ];
 
         $this->fields = [
             'url' => [
@@ -41,19 +54,6 @@ require_once __DIR__ . '/vendor/autoload.php';
                 'description' => __('Featured media URL', 'sage-next')
             ],
         ];
-
-        $this->type = [
-            'description' => __('Next JS specific data', 'sage-next'),
-            'type' => 'Next',
-            'resolve' => function ($post) {
-                return [
-                    'url' => '/' . get_page_uri($post->ID),
-                    'linkAs' => '/' . get_page_uri($post->ID),
-                    'linkHref' => '/[slug]',
-                    'content' => str_replace('href="' . $this->host, 'href="', get_the_content($post->ID)),
-                ];
-            },
-        ];
     }
 
     /**
@@ -61,7 +61,6 @@ require_once __DIR__ . '/vendor/autoload.php';
      */
     public function __invoke(): void
     {
-        add_action('after_setup_theme', [$this, 'setup'], 20);
         remove_action('template_redirect', 'redirect_canonical');
 
         add_action('graphql_register_types', function() {
@@ -73,6 +72,19 @@ require_once __DIR__ . '/vendor/autoload.php';
             register_graphql_field('Post', 'next', $this->type);
             register_graphql_field('Page', 'next', $this->type);
         });
+    }
+})();
+
+/**
+ * Theme setup.
+ */
+(new class() {
+    /**
+     * Class construct.
+     */
+    public function __construct()
+    {
+        add_action('after_setup_theme', [$this, 'setup'], 20);
     }
 
     /**
@@ -92,7 +104,10 @@ require_once __DIR__ . '/vendor/autoload.php';
          * Register navigation menus
          * @link https://developer.wordpress.org/reference/functions/register_nav_menus/
          */
-        register_nav_menus(['primary_navigation' => __('Primary Navigation', 'sage')]);
+        register_nav_menus([
+            'primary' => __('Primary Navigation', 'sage-next'),
+            'footer' => __('Footer Navigation', 'sage-next'),
+        ]);
 
         /**
          * Enable post thumbnails
@@ -117,9 +132,9 @@ require_once __DIR__ . '/vendor/autoload.php';
          * @link https://developer.wordpress.org/block-editor/developers/themes/theme-support/#block-color-palettes
          */
         add_theme_support('editor-color-palette', [[
-            'name'  => __('Primary', 'sage'),
+            'name'  => __('Primary', 'sage-next'),
             'slug'  => 'primary',
             'color' => '#525ddc',
         ]]);
     }
-})();
+});

@@ -1,8 +1,9 @@
 /** theme-ui */
-import {Container} from 'theme-ui'
+import {Box, Container} from 'theme-ui'
 
 /** Partials */
 import Header from './../partials/header'
+import Footer from './../partials/footer'
 
 /**
  * Primary layout.
@@ -11,14 +12,19 @@ import Header from './../partials/header'
  * @prop {object} children
  */
 const Layout = ({app, children}) =>
-  <Container mx={'auto'} px={2}>
+  <Container mx={'auto'} px={4}>
     <Header
-      title={app.title || ''}
-      description={app.description || ''}
-      menu={app.menus.primary || []}
+      title={app.title}
+      description={app.description}
+      menu={app.menus.primary}
     />
-
-    {children && <main>{children}</main>}
+    <Box as="main">
+      {children}
+    </Box>
+    <Footer
+      title={app.title}
+      menu={app.menus.footer}
+    />
   </Container>
 
 export default Layout

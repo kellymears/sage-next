@@ -2,7 +2,7 @@
 import Link from 'next/link'
 
 /** theme-ui */
-import {Flex, Heading} from 'theme-ui'
+import {Box, Flex, Heading} from 'theme-ui'
 
 /** Components */
 import Nav from '../components/Nav'
@@ -15,16 +15,16 @@ import Nav from '../components/Nav'
  * @prop {array}  menu
  */
 const Header = ({title, description, menu}) =>
-  <Flex
-    as="header"
-    variant="styles.header"
-    pt={2}
-    pb={3}
-  >
-    <Link as={`/`} href={`/`}>
-      <Heading as={'h1'}>{title}</Heading>
+  <Flex as="header" variant="styles.header" my={3}>
+    <Link as="/" href="/">
+      <Heading as="h1" fontSize={3} variant="styles.heading" cursor="pointer">
+        {title}
+      </Heading>
     </Link>
-    <Nav menu={menu} />
+
+    <Box ml={'auto'}>
+      <Nav menu={menu} />
+    </Box>
   </Flex>
 
 export default Header

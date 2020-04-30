@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Box, Heading } from 'theme-ui'
+import {Box, Heading} from 'theme-ui'
 
 /**
  * Partials: Content
@@ -10,16 +10,18 @@ import { Box, Heading } from 'theme-ui'
  * @prop {string} excerpt
  */
 const Content = ({title, linkAs, linkHref, excerpt}) =>
-  <Box as={'article'}>
-    <Heading as={'h2'}>
+  <Box as="article" pb={2}>
+    <Heading as="h2" variant="styles.heading">
       <Link href={linkHref} as={linkAs}>
         {title}
       </Link>
     </Heading>
 
-    <Box dangerouslySetInnerHTML={{
-      __html: excerpt || null,
-    }} />
+    {excerpt &&
+      <Box dangerouslySetInnerHTML={{
+        __html: excerpt,
+      }} />
+    }
   </Box>
 
 export default Content
