@@ -1,11 +1,7 @@
-const withPlugins = require('next-compose-plugins')
-const withOffline = require('next-offline')
-const withPino = require('next-pino')
-
 /**
  * Next config.
  */
-module.exports = withPlugins([withPino, withOffline], {
+module.exports = {
   compress: true,
   distDir: 'dist',
   env: {
@@ -16,4 +12,4 @@ module.exports = withPlugins([withPino, withOffline], {
   },
   webpack: config => config,
   poweredByHeader: false,
-})
+}

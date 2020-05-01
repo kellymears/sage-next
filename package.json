@@ -13,17 +13,12 @@
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
     "@emotion/styled": "^10.0.27",
-    "@wordpress/block-serialization-default-parser": "^3.6.0",
-    "@wordpress/block-serialization-spec-parser": "^3.5.0",
     "apollo-boost": "^0.4.7",
     "emotion": "^10.0.27",
     "emotion-theming": "^10.0.27",
     "graphql": "^15.0.0",
     "graphql-request": "^1.8.2",
     "next": "^9.3.5",
-    "next-offline": "^5.0.2",
-    "next-pino": "^0.0.1",
-    "pino": "^6.2.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "theme-ui": "^0.3.1"
@@ -38,9 +33,6 @@
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-react": "^7.19.0",
     "fs-extra": "^9.0.0",
-    "next-compose-plugins": "^2.2.0",
-    "next-optimized-images": "^2.5.8",
-    "postcss-preset-env": "^6.7.0",
     "prettier": "^2.0.4",
     "prettier-eslint-cli": "^5.0.0"
   }
