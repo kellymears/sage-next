@@ -8,6 +8,7 @@ import {Box, Heading} from 'theme-ui'
 export default ({title, content}) => (
   <Box as={'article'}>
     <Heading as={'h2'}>{title}</Heading>
+
     <Box dangerouslySetInnerHTML={{__html: content}} />
   </Box>
 )

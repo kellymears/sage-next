@@ -8,7 +8,9 @@ require_once __DIR__ . '/vendor/autoload.php';
  * WPGraphQL Next interface.
  */
 (new class() {
-    public $host;
+    public $url;
+    public $deploymentUrl;
+
     public $type;
     public $fields;
 
@@ -17,7 +19,8 @@ require_once __DIR__ . '/vendor/autoload.php';
      */
     public function __construct()
     {
-        $this->host = get_home_url();
+        $this->url = 'http://kellymears.vagrant';
+        $this->deploymentUrl = 'https://familiar-zebra.surge.sh';
 
         $this->type = [
             'description' => __('Next JS specific data', 'sage-next'),
@@ -27,7 +30,12 @@ require_once __DIR__ . '/vendor/autoload.php';
                     'url' => '/' . get_page_uri($post->ID),
                     'linkAs' => '/' . get_page_uri($post->ID),
                     'linkHref' => '/[slug]',
-                    'content' => str_replace('href="' . $this->host, 'href="', get_the_content($post->ID)),
+                    'filteredContent' => (
+                        str_replace("{$this->url}/app/uploads", '', get_the_content($post->ID))
+                    ),
+                    'featuredMedia' => (
+                        str_replace("{$this->url}/app/uploads", '', get_the_post_thumbnail_url($post->ID))
+                    ),
                 ];
             },
         ];
@@ -45,11 +53,11 @@ require_once __DIR__ . '/vendor/autoload.php';
                 'type' => 'String',
                 'description' => __('Link component helper', 'sage-next'),
             ],
-            'content' => [
+            'filteredContent' => [
                 'type' => 'String',
                 'description' => __('Filtered content', 'sage-next'),
             ],
-            'featuredImagePath' => [
+            'featuredMedia' => [
                 'type' => 'String',
                 'description' => __('Featured media URL', 'sage-next')
             ],

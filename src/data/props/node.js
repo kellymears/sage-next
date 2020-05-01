@@ -1,5 +1,3 @@
-import {resolve} from 'path'
-
 /** graphql */
 import client from '../client'
 import appData from './app'
@@ -23,13 +21,6 @@ const getStaticProps = async ({params}) => {
         }
         date
         excerpt
-        featuredImage {
-          caption
-          sourceUrl
-          srcSet
-          mimeType
-          title
-        }
         categories {
           edges {
             node {
@@ -47,24 +38,20 @@ const getStaticProps = async ({params}) => {
           }
         }
         next {
-          content
-          url
+          filteredContent
           linkAs
           linkHref
+          featuredMedia
         }
       }
       ... on Page {
         title
-        featuredImage {
-          caption
-          sourceUrl
-          title
-        }
         next {
-          content
           url
+          filteredContent
           linkAs
           linkHref
+          featuredMedia
         }
       }
     }
@@ -77,6 +64,7 @@ const getStaticProps = async ({params}) => {
         ...node,
         ...node.next,
         type: node.__typename,
+        content: node.next.filteredContent
       },
     },
   }
