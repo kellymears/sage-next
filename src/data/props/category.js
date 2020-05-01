@@ -70,7 +70,4 @@ const getStaticPaths = async () => {
   }
 }
 
-export {
-  getStaticProps,
-  getStaticPaths,
-}
+export {getStaticProps, getStaticPaths}

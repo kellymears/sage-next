@@ -16,14 +16,19 @@ export default ({title, content, featuredImage, author}) => (
           my={2}
           srcSet={featuredImage.srcSet}
           src={featuredImage.sourceUrl}
-          type={featuredImage.mimeType} />
+          type={featuredImage.mimeType}
+        />
       </picture>
     )}
     {author.firstName && (
-      <Text>by {author.firstName} {author.lastName}</Text>
+      <Text>
+        by {author.firstName} {author.lastName}
+      </Text>
     )}
-    <Box dangerouslySetInnerHTML={{
-      __html: content
-    }} />
+    <Box
+      dangerouslySetInnerHTML={{
+        __html: content,
+      }}
+    />
   </Box>
 )

@@ -33,4 +33,4 @@ const getStaticProps = async () => {
   }
 }
 
-export { getStaticProps }
+export {getStaticProps}

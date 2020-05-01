@@ -27,6 +27,7 @@
     "illuminate/http": "^7.7",
     "illuminate/routing": "^7.7",
     "illuminate/support": "^7.7",
+    "pristas-peter/wp-graphql-gutenberg": "^0.2.0",
     "ralouphie/mimey": "^2.1"
   },
   "require-dev": {

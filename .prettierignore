@@ -1,3 +1,8 @@
+.*
+*.log
+*.lock
+LICENSE
 node_modules
 dist
 out
+vendor

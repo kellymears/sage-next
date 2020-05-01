@@ -64,11 +64,17 @@ Important locations:
 If you `require` image assets instead of specifying them via URL you can optimize them at build time using a variety of Gatsby-esque filters. It's pretty jammy.
 
 ```jsx
-  <header>
-    <picture>
-      <source srcSet={require('./../resources/images/image.png?webp&resize&size=800&trace')} type="image/webp" />
-      <source srcSet={require('./../resources/images/image.png?resize&size=800&trace')} type="image/png" />
-      <img src={require('./../resources/images/image.png?resize&size=800&trace')} />
-    </picture>
-  </header>
+<header>
+  <picture>
+    <source
+      srcSet={require('./../resources/images/image.png?webp&resize&size=800&trace')}
+      type="image/webp"
+    />
+    <source
+      srcSet={require('./../resources/images/image.png?resize&size=800&trace')}
+      type="image/png"
+    />
+    <img src={require('./../resources/images/image.png?resize&size=800&trace')} />
+  </picture>
+</header>
 ```

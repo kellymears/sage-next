@@ -9,7 +9,7 @@ import {Box, Heading} from 'theme-ui'
  * @prop {string} linkHref
  * @prop {string} excerpt
  */
-const Content = ({title, linkAs, linkHref, excerpt}) =>
+const Content = ({title, linkAs, linkHref, excerpt}) => (
   <Box as="article" pb={2}>
     <Heading as="h2" variant="styles.heading">
       <Link href={linkHref} as={linkAs}>
@@ -17,11 +17,14 @@ const Content = ({title, linkAs, linkHref, excerpt}) =>
       </Link>
     </Heading>
 
-    {excerpt &&
-      <Box dangerouslySetInnerHTML={{
-        __html: excerpt,
-      }} />
-    }
+    {excerpt && (
+      <Box
+        dangerouslySetInnerHTML={{
+          __html: excerpt,
+        }}
+      />
+    )}
   </Box>
+)
 
 export default Content

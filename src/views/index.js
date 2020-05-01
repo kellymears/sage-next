@@ -6,6 +6,4 @@ import Content from './partials/content'
  *
  * @prop {object} posts
  */
-export default ({posts}) => posts.map(post =>
-  <Content {...post} />
-)
+export default ({posts}) => posts.map(post => <Content {...post} />)

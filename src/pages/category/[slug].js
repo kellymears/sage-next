@@ -2,7 +2,7 @@
 import Head from 'next/head'
 
 /** Application data */
-import { getStaticProps, getStaticPaths } from '../../data/props/category'
+import {getStaticProps, getStaticPaths} from '../../data/props/category'
 
 /** Application views */
 import Layout from '../../views/layout'
@@ -23,4 +23,4 @@ export default ({app, category: {name, description, posts}}) => (
   </Layout>
 )
 
-export { getStaticPaths, getStaticProps }
+export {getStaticPaths, getStaticProps}

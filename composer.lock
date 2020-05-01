@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e4e9b1c48c3aa172905fc4617f3b39e6",
+    "content-hash": "7e7b770155506c542cdc591a0474b884",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -595,6 +595,39 @@
                 "time"
             ],
             "time": "2020-03-31T13:43:19+00:00"
+        },
+        {
+            "name": "pristas-peter/wp-graphql-gutenberg",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pristas-peter/wp-graphql-gutenberg.git",
+                "reference": "9570895c8666fe759d1d6859e89bdf42fe668112"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pristas-peter/wp-graphql-gutenberg/zipball/9570895c8666fe759d1d6859e89bdf42fe668112",
+                "reference": "9570895c8666fe759d1d6859e89bdf42fe668112",
+                "shasum": ""
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "0.5.0",
+                "phpcompatibility/phpcompatibility-wp": "2.1.0",
+                "squizlabs/php_codesniffer": "3.5.4",
+                "wp-coding-standards/wpcs": "2.1.1"
+            },
+            "type": "wordpress-plugin",
+            "autoload": {
+                "psr-4": {
+                    "WPGraphqlGutenberg\\": "src/"
+                },
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Query gutenberg blocks with wp-graphql",
+            "time": "2020-04-30T13:19:41+00:00"
         },
         {
             "name": "psr/container",

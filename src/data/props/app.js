@@ -3,36 +3,34 @@ import client from '../client'
 /**
  * Application data
  */
-export default async (app = {}) => {
-  const query = await client.request(`
-    {
-      generalSettings {
-        title
-        description
-      }
-      menus {
-        edges {
-          node {
-            name
-            menuItems {
-              edges {
-                node {
-                  label
-                  target
-                  title
-                  url
-                  connectedObject {
-                    ... on Post {
-                      next {
-                        linkAs
-                        linkHref
-                      }
+export default async (menus = {}) => {
+  const query = await client.request(`{
+    generalSettings {
+      title
+      description
+    }
+    menus {
+      edges {
+        node {
+          name
+          menuItems {
+            edges {
+              node {
+                label
+                target
+                title
+                url
+                connectedObject {
+                  ... on Post {
+                    next {
+                      linkAs
+                      linkHref
                     }
-                    ... on Page {
-                      next {
-                        linkAs
-                        linkHref
-                      }
+                  }
+                  ... on Page {
+                    next {
+                      linkAs
+                      linkHref
                     }
                   }
                 }
@@ -42,19 +40,17 @@ export default async (app = {}) => {
         }
       }
     }
-  `)
-
-  app = {...query.generalSettings}
+  }`)
 
   query.menus.edges.forEach(({node: {name, menuItems}}) => {
-    app.menus = {
-      ...app.menus,
+    menus = {
+      ...menus,
       [name]: menuItems.edges.map(({node}) => ({
         ...node,
         ...node.connectedObject.next,
-      }))
+      })),
     }
   })
 
-  return {...app}
+  return {menus, ...query.generalSettings}
 }

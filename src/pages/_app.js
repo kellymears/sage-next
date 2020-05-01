@@ -2,7 +2,7 @@
 import Head from 'next/head'
 
 /** @theme-ui */
-import { ThemeProvider } from 'theme-ui'
+import {ThemeProvider} from 'theme-ui'
 import theme from '../theme'
 
 /**
@@ -11,7 +11,7 @@ import theme from '../theme'
  * @prop {object} Component
  * @prop {object} pageProps
  */
-const Application = ({Component, pageProps}) =>
+const Application = ({Component, pageProps}) => (
   <>
     <Head>
       <meta charSet="utf-8" />
@@ -23,5 +23,6 @@ const Application = ({Component, pageProps}) =>
       <Component {...pageProps} />
     </ThemeProvider>
   </>
+)
 
 export default Application

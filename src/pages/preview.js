@@ -15,7 +15,7 @@ import Post from '../views/post'
  * Preview component
  */
 const Preview = () => {
-  if(process.browser) {
+  if (process.browser) {
     const {loading, error, data} = useQuery(gql`{
       nodeByUri(uri: "${window.location.pathname}") {
         __typename
@@ -60,10 +60,7 @@ const Preview = () => {
     if (loading) return <div>Loading..</div>
     if (error) return <div>error!</div>
 
-    const {
-      nodeByUri: node,
-      generalSettings: settings,
-    } = data
+    const {nodeByUri: node, generalSettings: settings} = data
 
     let menus = {}
     data.menus.edges.forEach(({node: {name, menuItems}}) => {
@@ -71,8 +68,8 @@ const Preview = () => {
         ...menus,
         [name]: menuItems.edges.map(({node}) => ({
           ...node,
-          url: node.url.replace(`${process.env.url}`, '/')
-        }))
+          url: node.url.replace(`${process.env.url}`, '/'),
+        })),
       }
     })
 
@@ -83,7 +80,9 @@ const Preview = () => {
     return (
       <Layout app={app}>
         <Head>
-          <title>{node.title} | {app.title}</title>
+          <title>
+            {node.title} | {app.title}
+          </title>
         </Head>
 
         <PreviewComponent {...node} />
@@ -91,7 +90,7 @@ const Preview = () => {
     )
   }
 
-  return null;
+  return null
 }
 
 export default () => (

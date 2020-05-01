@@ -14,7 +14,7 @@ import Nav from '../components/Nav'
  * @prop {string} description
  * @prop {array}  menu
  */
-const Header = ({title, description, menu}) =>
+const Header = ({title, description, menu}) => (
   <Flex as="header" variant="styles.header" my={3}>
     <Link as="/" href="/">
       <Heading as="h1" fontSize={3} variant="styles.heading" cursor="pointer">
@@ -26,5 +26,6 @@ const Header = ({title, description, menu}) =>
       <Nav menu={menu} />
     </Box>
   </Flex>
+)
 
 export default Header

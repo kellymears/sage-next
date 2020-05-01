@@ -20,14 +20,16 @@ const components = {Post, Page}
  * @prop {object} app
  * @prop {object} page
  */
- export default ({app, node}) => {
+export default ({app, node}) => {
   /** PostType component */
   const Component = components[node.type]
 
   return (
     <Layout app={app}>
       <Head>
-        <title>{node.title} | {app.title}</title>
+        <title>
+          {node.title} | {app.title}
+        </title>
         <meta name="robots" content="index,follow" />
         <meta name="description" content={app.description} />
         <meta property="og:title" content={app.title} />
@@ -38,7 +40,4 @@ const components = {Post, Page}
   )
 }
 
-export {
-  getStaticPaths,
-  getStaticProps,
-}
+export {getStaticPaths, getStaticProps}

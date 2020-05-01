@@ -9,13 +9,17 @@ import {Box, NavLink} from 'theme-ui'
  *
  * @prop {array} menu
  */
-const Nav = ({menu}) =>
+const Nav = ({menu}) => (
   <Box as={'nav'}>
-    {menu.map(({label, linkHref, linkAs, url}) => linkHref
-      ? <AppLink linkHref={linkHref} linkAs={linkAs} label={label} />
-      : <ExternalLink url={url} label={label} />
+    {menu.map(({label, linkHref, linkAs, url}) =>
+      linkHref ? (
+        <AppLink linkHref={linkHref} linkAs={linkAs} label={label} />
+      ) : (
+        <ExternalLink url={url} label={label} />
+      ),
     )}
   </Box>
+)
 
 /**
  * Internal Link

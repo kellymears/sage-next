@@ -52,17 +52,14 @@ const getStaticPaths = async () => {
 
   return {
     paths: [
-      ...tags.edges.map(({ node: tag }) => ({
+      ...tags.edges.map(({node: tag}) => ({
         params: {
           slug: tag.slug,
         },
-      }))
+      })),
     ],
     fallback: false,
   }
 }
 
-export {
-  getStaticProps,
-  getStaticPaths,
-}
+export {getStaticProps, getStaticPaths}

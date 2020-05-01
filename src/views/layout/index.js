@@ -11,20 +11,12 @@ import Footer from './../partials/footer'
  * @prop {object} app
  * @prop {object} children
  */
-const Layout = ({app, children}) =>
+const Layout = ({app, children}) => (
   <Container mx={'auto'} px={4}>
-    <Header
-      title={app.title}
-      description={app.description}
-      menu={app.menus.primary}
-    />
-    <Box as="main">
-      {children}
-    </Box>
-    <Footer
-      title={app.title}
-      menu={app.menus.footer}
-    />
+    <Header title={app.title} description={app.description} menu={app.menus.primary} />
+    <Box as="main">{children}</Box>
+    <Footer title={app.title} menu={app.menus.footer} />
   </Container>
+)
 
 export default Layout

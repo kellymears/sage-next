@@ -8,14 +8,13 @@
     "export": "next export",
     "start": "next start",
     "publish:surge": "surge ./out --domain=familiar-zebra.surge.sh",
-    "lint": "prettier --write **/*.js"
+    "lint": "prettier --write ./"
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
     "@emotion/styled": "^10.0.27",
     "@wordpress/block-serialization-default-parser": "^3.6.0",
     "@wordpress/block-serialization-spec-parser": "^3.5.0",
-    "@zeit/next-source-maps": "^0.0.3",
     "apollo-boost": "^0.4.7",
     "emotion": "^10.0.27",
     "emotion-theming": "^10.0.27",
