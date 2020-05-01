@@ -28,7 +28,8 @@
     "illuminate/routing": "^7.7",
     "illuminate/support": "^7.7",
     "pristas-peter/wp-graphql-gutenberg": "^0.2.0",
-    "ralouphie/mimey": "^2.1"
+    "ralouphie/mimey": "^2.1",
+    "wp-graphql/wp-graphql": "^0.8.4"
   },
   "require-dev": {
     "filp/whoops": "^2.7",

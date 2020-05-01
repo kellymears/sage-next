@@ -13,7 +13,7 @@ const uploads = `/app/uploads/`
  * @param {string} path
  */
 const download = async (url, path) => {
-  console.log(`\n${chalk.blueBright(url)} => ${chalk.magentaBright(path)}...`)
+  console.log(`${chalk.blueBright(url)} => ${chalk.magentaBright(path)}...\n`)
 
   fs.ensureFileSync(path)
 
@@ -36,9 +36,12 @@ const download = async (url, path) => {
  * Write media library to /public
  */
 ;(async function () {
-  console.log(`\nWriting media library items to ${chalk.green('/public')}`)
-  const {mediaItems} = await new GraphQLClient(`${siteHost}/wp/graphql`, {mode: 'no-cors'})
-    .request(`{
+  console.log(`\nWriting media library items to ${chalk.green('/public')}\n`)
+
+  const {mediaItems} = await new GraphQLClient(
+    `${siteHost}/wp/graphql`,
+    {mode: 'no-cors'}
+  ).request(`{
     mediaItems {
       edges {
         node {
@@ -49,7 +52,7 @@ const download = async (url, path) => {
   }`)
 
   mediaItems.edges.forEach(({node: {sourceUrl}}) => {
-    const outputPath = join(__dirname, `public/${sourceUrl.replace(`${siteHost}${uploads}`, '')}`)
+    const outputPath = join(__dirname, `public/${sourceUrl.replace(`${siteHost}`, '')}`)
     download(sourceUrl, outputPath)
   })
 })()

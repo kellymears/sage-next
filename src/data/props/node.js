@@ -38,20 +38,20 @@ const getStaticProps = async ({params}) => {
           }
         }
         next {
-          filteredContent
+          content
           linkAs
           linkHref
-          featuredMedia
+          media
         }
       }
       ... on Page {
         title
         next {
           url
-          filteredContent
           linkAs
           linkHref
-          featuredMedia
+          media
+          content
         }
       }
     }
@@ -64,7 +64,6 @@ const getStaticProps = async ({params}) => {
         ...node,
         ...node.next,
         type: node.__typename,
-        content: node.next.filteredContent
       },
     },
   }
