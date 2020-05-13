@@ -38,18 +38,12 @@ use Mimey\MimeTypes;
      */
     public function __construct()
     {
-        /**
-         * Construct Illuminate components
-         */
-        $this->app = new Container();
-        $this->request = Request::capture();
-
-        /** Mime-Type helper */
-        $this->mimes = new MimeTypes();
-
-        /** Next JS build directory */
         $this->staticDir = __DIR__ . '/out';
         $this->distDir = __DIR__ . '/dist';
+
+        $this->app = new Container();
+        $this->request = Request::capture();
+        $this->mimes = new MimeTypes();
     }
 
     /**
@@ -59,20 +53,14 @@ use Mimey\MimeTypes;
      */
     public function __invoke(): void
     {
-        /** Eject early if request isn't appropriate */
-        if (is_admin()) {
-            return;
-        }
+        if (is_admin()) return;
 
-        /** Initialize request, response */
         $this->app->instance('Illuminate\Http\Request', $this->request);
         $this->app->instance('Illuminate\Http\Response', $this->response);
 
-        /** Initialize router */
         $this->events = new Dispatcher($this->app);
         $this->router = new Router($this->events, $this->app);
 
-        /** 🚀 */
         $this->routeRequests();
     }
 
@@ -81,86 +69,87 @@ use Mimey\MimeTypes;
      *
      * @return void
      */
-    public function routeRequests()
+    protected function routeRequests()
     {
-        /**
-         * Single template previews
-         */
-        if (is_preview()) {
-            $this->router->any('{any}', function () {
-                /** Construct and return response to router */
-                $response = new Response($this->getStaticContents('/preview.html'), 200);
-                $response->header('Content-Type', 'text/html');
-
-                return $response;
-            })->where('any', '(.*)');
-
-            /** Dispatch response */
-            return $this->router->dispatch($this->request)->send();
-        }
-
-        /**
-         * Static requests
-         */
+        /** Serve static assets */
         if ($this->isStaticRequest()) {
-            $this->router->get('{any}', function () {
-                /** Filesystem path of requested asset */
-                $filePath = str_replace(
-                    '_next/',
-                    $this->staticDir . '/_next/',
-                    $this->request->getPathInfo()
-                );
-
-                /** Handle [ and ] chars in Next wildcard static paths */
-                $filePath = str_replace('%5B', '[', $filePath);
-                $filePath = str_replace('%5D', ']', $filePath);
-
-                /** Determine mime-type of response */
-                $mimeType = $this->mimes->getMimeType(
-                    pathinfo($filePath, PATHINFO_EXTENSION)
-                );
-
-                /** Construct and return response to router */
-                $response = new Response(file_get_contents($filePath), 200);
-                $response->header('Content-Type', $mimeType);
-
-                return $response;
-            })->where('any', '(.*)');
-
-            /** Dispatch response */
-            return $this->router->dispatch($this->request)->send();
+            $this->staticAssetRoute();
         }
 
-        /** Route: index */
+        /** Serve index */
         if ($this->request->getPathInfo() == '/') {
-            $this->router->get('/', function () {
-                /** Construct and return response to router */
-                $response = new Response($this->getStaticContents('index.html'), 200);
-                $response->header('Content-Type', 'text/html');
-
-                return $response;
-            });
-
-            /** Dispatch response */
-            return $this->router->dispatch($this->request)->send();
+            $this->indexRoute();
         }
 
-        /**
-         * If request maps to a valid static file serve the file
-         * contents with a 200 status code.
-         */
+        /** Serve NextJS generated page */
         if ($this->isNextEntrypoint()) {
-            $this->router->any('{any}', function () {
-                /** Construct and return response to router */
-                $response = new Response(file_get_contents($this->entry), 200);
-                $response->header('Content-Type', 'text/html');
-
-                return $response;
-            })->where('any', '(.*)');
-
-            /** Dispatch response */
-            return $this->router->dispatch($this->request)->send();
+            $this->nextRoute();
         }
+    }
+
+    /**
+     * Route: Index
+     */
+    protected function indexRoute()
+    {
+        $this->router->get('/', function () {
+            /** Construct and return response to router */
+            $response = new Response($this->getStaticContents('index.html'), 200);
+            $response->header('Content-Type', 'text/html');
+
+            return $response;
+        });
+
+        return $this->router->dispatch($this->request)->send();
+    }
+
+    /**
+     * Route: Next
+     */
+    protected function nextRoute()
+    {
+        $this->router->any('{any}', function () {
+            /** Construct and return response to router */
+            $response = new Response(file_get_contents($this->entry), 200);
+            $response->header('Content-Type', 'text/html');
+
+            return $response;
+        })->where('any', '(.*)');
+
+        /** Dispatch response */
+        return $this->router->dispatch($this->request)->send();
+    }
+
+    /**
+     * Route: Static assets
+     */
+    protected function staticAssetRoute()
+    {
+        $this->router->get('{any}', function () {
+            /** Filesystem path of requested asset */
+            $filePath = str_replace(
+                '_next/',
+                $this->staticDir . '/_next/',
+                $this->request->getPathInfo()
+            );
+
+            /** Handle [ and ] chars in Next wildcard static paths */
+            $filePath = str_replace('%5B', '[', $filePath);
+            $filePath = str_replace('%5D', ']', $filePath);
+
+            /** Determine mime-type of response */
+            $mimeType = $this->mimes->getMimeType(
+                pathinfo($filePath, PATHINFO_EXTENSION)
+            );
+
+            /** Construct and return response to router */
+            $response = new Response(file_get_contents($filePath), 200);
+            $response->header('Content-Type', $mimeType);
+
+            return $response;
+        })->where('any', '(.*)');
+
+        return $this->router->dispatch($this->request)->send();
     }
 
     /**
@@ -169,7 +158,7 @@ use Mimey\MimeTypes;
      * @param  string
      * @return string
      */
-    public function getStaticContents($file): string
+    protected function getStaticContents($file): string
     {
         return file_get_contents("{$this->staticDir}/{$file}");
     }
@@ -180,7 +169,7 @@ use Mimey\MimeTypes;
      * @param  string
      * @return string
      */
-    public function getDistContents($file): string
+    protected function getDistContents($file): string
     {
         return file_get_contents("{$this->distDir}/{$file}");
     }
@@ -190,7 +179,7 @@ use Mimey\MimeTypes;
      *
      * @return bool
      */
-    public function isNextEntrypoint(): bool
+    protected function isNextEntrypoint(): bool
     {
         $requestFile = rtrim($this->request->getPathInfo(), '/\\') . '.html';
         return realpath($this->entry = "{$this->staticDir}/{$requestFile}");
@@ -201,7 +190,7 @@ use Mimey\MimeTypes;
      *
      * @return bool
      */
-    public function isStaticRequest(): bool
+    protected function isStaticRequest(): bool
     {
         return strpos($this->request->getPathInfo(), '_next');
     }

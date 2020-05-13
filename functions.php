@@ -10,8 +10,10 @@ use Illuminate\Support\Collection;
  * WPGraphQL Next interface.
  */
 (new class() {
-    public $url = 'http://kellymears.vagrant';
+    public $url;
+
     public $type;
+
     public $fields;
 
     /**
@@ -19,6 +21,8 @@ use Illuminate\Support\Collection;
      */
     public function __construct()
     {
+        $this->url = get_home_url();
+
         $this->type = [
             'description' => __('Next JS specific data', 'sage-next'),
             'type' => 'Next',
@@ -27,8 +31,16 @@ use Illuminate\Support\Collection;
                     'url' => '/' . get_page_uri($post->ID),
                     'linkAs' => '/' . get_page_uri($post->ID),
                     'linkHref' => '/[slug]',
-                    'content' => str_replace([addslashes($this->url), $this->url], '', get_post($post->ID)->post_content),
-                    'media' => str_replace([addslashes($this->url), $this->url], '', get_the_post_thumbnail_url($post->ID)),
+                    'content' => str_replace(
+                        $this->getUrlVariants(),
+                        '',
+                        get_post($post->ID)->post_content
+                    ),
+                    'media' => str_replace(
+                        $this->getUrlVariants(),
+                        '',
+                        get_the_post_thumbnail_url($post->ID)
+                    ),
                 ];
             },
         ];
@@ -74,6 +86,16 @@ use Illuminate\Support\Collection;
             register_graphql_field('Page', 'next', $this->type);
         });
     }
+
+    /**
+     * Get URL variants
+     *
+     * @return array
+     */
+    protected function getUrlVariants(): array
+    {
+        return [addslashes($this->url), $this->url];
+    }
 })();
 
 /**
@@ -95,43 +117,14 @@ use Illuminate\Support\Collection;
      */
     public function setup(): void
     {
-         /**
-         * Enable plugins to manage the document title
-         * @link https://developer.wordpress.org/reference/functions/add_theme_support/#title-tag
-         */
         add_theme_support('title-tag');
-
-        /**
-         * Register navigation menus
-         * @link https://developer.wordpress.org/reference/functions/register_nav_menus/
-         */
         register_nav_menus([
             'primary' => __('Primary Navigation', 'sage-next'),
             'footer' => __('Footer Navigation', 'sage-next'),
         ]);
 
-        /**
-         * Enable post thumbnails
-         * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
-         */
-        add_theme_support('post-thumbnails');
-
-        /**
-         * Add theme support for Wide Alignment
-         * @link https://wordpress.org/gutenberg/handbook/designers-developers/developers/themes/theme-support/#wide-alignment
-         */
         add_theme_support('align-wide');
-
-        /**
-         * Enable responsive embeds
-         * @link https://wordpress.org/gutenberg/handbook/designers-developers/developers/themes/theme-support/#responsive-embedded-content
-         */
         add_theme_support('responsive-embeds');
-
-        /**
-         * Enable theme color palette support
-         * @link https://developer.wordpress.org/block-editor/developers/themes/theme-support/#block-color-palettes
-         */
         add_theme_support('editor-color-palette', [[
             'name'  => __('Primary', 'sage-next'),
             'slug'  => 'primary',
