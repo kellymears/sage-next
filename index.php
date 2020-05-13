@@ -93,7 +93,6 @@ use Mimey\MimeTypes;
     protected function indexRoute()
     {
         $this->router->get('/', function () {
-            /** Construct and return response to router */
             $response = new Response($this->getStaticContents('index.html'), 200);
             $response->header('Content-Type', 'text/html');
 
@@ -109,7 +108,6 @@ use Mimey\MimeTypes;
     protected function nextRoute()
     {
         $this->router->any('{any}', function () {
-            /** Construct and return response to router */
             $response = new Response(file_get_contents($this->entry), 200);
             $response->header('Content-Type', 'text/html');
 
@@ -126,7 +124,6 @@ use Mimey\MimeTypes;
     protected function staticAssetRoute()
     {
         $this->router->get('{any}', function () {
-            /** Filesystem path of requested asset */
             $filePath = str_replace(
                 '_next/',
                 $this->staticDir . '/_next/',
@@ -137,12 +134,10 @@ use Mimey\MimeTypes;
             $filePath = str_replace('%5B', '[', $filePath);
             $filePath = str_replace('%5D', ']', $filePath);
 
-            /** Determine mime-type of response */
             $mimeType = $this->mimes->getMimeType(
                 pathinfo($filePath, PATHINFO_EXTENSION)
             );
 
-            /** Construct and return response to router */
             $response = new Response(file_get_contents($filePath), 200);
             $response->header('Content-Type', $mimeType);
 
@@ -182,6 +177,7 @@ use Mimey\MimeTypes;
     protected function isNextEntrypoint(): bool
     {
         $requestFile = rtrim($this->request->getPathInfo(), '/\\') . '.html';
+
         return realpath($this->entry = "{$this->staticDir}/{$requestFile}");
     }
 
