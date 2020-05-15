@@ -121,7 +121,7 @@ use Mimey\MimeTypes;
     /**
      * Route: Static assets
      */
-    protected function staticAssetRoute()
+    protected function assetRoute()
     {
         $this->router->get('{any}', function () {
             $filePath = str_replace(
@@ -174,7 +174,7 @@ use Mimey\MimeTypes;
      *
      * @return bool
      */
-    protected function isNextEntrypoint(): bool
+    private function isNextEntrypoint(): bool
     {
         $requestFile = rtrim($this->request->getPathInfo(), '/\\') . '.html';
 
@@ -186,7 +186,7 @@ use Mimey\MimeTypes;
      *
      * @return bool
      */
-    protected function isStaticRequest(): bool
+    private function isStaticRequest(): bool
     {
         return strpos($this->request->getPathInfo(), '_next');
     }

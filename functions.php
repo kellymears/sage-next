@@ -10,10 +10,13 @@ use Illuminate\Support\Collection;
  * WPGraphQL Next interface.
  */
 (new class() {
+    /** @var string */
     public $url;
 
+    /** @var array */
     public $type;
 
+    /** @var array */
     public $fields;
 
     /**

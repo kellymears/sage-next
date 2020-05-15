@@ -1,58 +1,91 @@
 const chalk = require('chalk')
 const {join} = require('path')
-const fs = require('fs-extra')
+const sharp = require('sharp')
+const request = require('request')
 const {GraphQLClient} = require('graphql-request')
 
-const siteHost = `http://kellymears.vagrant`
-const uploads = `/app/uploads/`
+const SITEURL = `http://kellymears.vagrant`
 
 /**
- * Write a remote image to the disk
- *
- * @param {string} url
- * @param {string} path
+ * Process image
  */
-const download = async (url, path) => {
-  console.log(`${chalk.blueBright(url)} => ${chalk.magentaBright(path)}...\n`)
+const processImage = async ({sourceUrl, mimeType}) => {
+  await request({
+    url: sourceUrl,
+    encoding: null,
+  }, (err, res, bodyBuffer) => {
+    let processed
 
-  fs.ensureFileSync(path)
+    if (mimeType == 'image/png') {
+      processed = sharp(bodyBuffer)
+        .png({quality: 70})
+    }
 
-  const res = await fetch(url)
-  const fileStream = fs.createWriteStream(path)
+    if (mimeType == 'image/jpeg') {
+      processed = sharp(bodyBuffer)
+        .jpeg({quality: 70})
+    }
 
-  await new Promise((resolve, reject) => {
-    res.body.pipe(fileStream)
-    res.body.on('error', err => {
-      console.error(chalk.red(err))
-      reject(err)
-    })
-    fileStream.on('finish', function () {
-      resolve()
-    })
+    processed.toFile(
+      join(__dirname, `public/${sourceUrl.replace(`${SITEURL}`, '')}`)
+    )
   })
 }
 
 /**
- * Write media library to /public
+ * Request media items from WPGraphQL
  */
-;(async function () {
-  console.log(`\nWriting media library items to ${chalk.green('/public')}\n`)
-
+const getMediaItems = async () => {
   const {mediaItems} = await new GraphQLClient(
-    `${siteHost}/wp/graphql`,
-    {mode: 'no-cors'}
+    `${SITEURL}/wp/graphql`,
+    {mode: 'no-cors'},
   ).request(`{
     mediaItems {
       edges {
         node {
           sourceUrl
+          mimeType
+          mediaDetails {
+            file
+            sizes {
+              width
+              height
+              sourceUrl
+              mimeType
+            }
+          }
         }
       }
     }
   }`)
 
-  mediaItems.edges.forEach(({node: {sourceUrl}}) => {
-    const outputPath = join(__dirname, `public/${sourceUrl.replace(`${siteHost}`, '')}`)
-    download(sourceUrl, outputPath)
+  return mediaItems
+}
+
+console.log(`\nProcessing WordPress Media Library.`)
+console.log(`Saving to ${chalk.green('/public')}.`)
+
+getMediaItems().then(async ({edges}) =>
+  edges.filter(({node: {mediaType}}) => mediaType !== 'image')
+  .forEach(async ({
+    node: {
+      sourceUrl,
+      mimeType,
+      mediaDetails: {
+        file,
+        sizes
+      },
+    },
+  }) => {
+    await processImage({sourceUrl, mimeType})
+    console.log(chalk.blue(`\n 📸 [${mimeType}] ${file}`))
+
+    await (async() => {
+      sizes.map(({sourceUrl, width, height}) => {
+        processImage({sourceUrl, mimeType})
+
+        console.log(chalk.green(` ✔ [${width}x${height}] variant`))
+      })
+    })()
   })
-})()
+)

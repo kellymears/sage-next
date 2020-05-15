@@ -42,7 +42,9 @@ export default async (menus = {}) => {
     }
   }`)
 
-  query.menus.edges.forEach(({node: {name, menuItems}}) => {
+  query.menus.edges.forEach(({
+    node: {name, menuItems},
+  }) => {
     menus = {
       ...menus,
       [name]: menuItems.edges.map(({node}) => ({
